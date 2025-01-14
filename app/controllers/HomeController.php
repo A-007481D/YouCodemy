@@ -4,6 +4,6 @@ namespace App\controllers;
 
 class HomeController {
     public function index() :void{
-        echo 'hello';
+        require "app/views/home.php";
     }
 }

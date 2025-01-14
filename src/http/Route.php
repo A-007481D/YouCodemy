@@ -20,7 +20,7 @@ class Route
 
 
         if (isset(self::$routes[$method][$path])) {
-            // Retrieve the controller and action
+
             $route = self::$routes[$method][$path];
             $controller = $route[0];
             $action = $route[1];
@@ -29,6 +29,7 @@ class Route
 
             if (file_exists($controllerPath)) {
                 require_once $controllerPath;
+                $controller = "App\\controllers\\{$controller}";
 
                 if (class_exists($controller)) {
                     $controllerInstance = new $controller();
