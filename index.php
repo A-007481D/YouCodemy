@@ -1,21 +1,17 @@
 <?php
-$title = "abaa";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-require_once './app/views/layout.php';
+use src\http\Route;
 
+require_once __DIR__ . '/vendor/autoload.php';
 
-?>
+// Initialize the route system
+$route = new Route();
 
+// Define routes
+$route->get('/', 'HomeController', 'index');
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-</body>
-</html>
+// Resolve the request
+$route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

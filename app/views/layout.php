@@ -1,65 +1,69 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <title><?= $title ?></title>
+    <title>Document</title>
 </head>
+
 <body>
-<footer class="bg-white py-12 px-20">
-    <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-
+<div id="signupForm" class="p-8 hidden">
+    <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
+        Create Account
+    </h2>
+    <form method="POST" action="../Auth/auth.php" class="space-y-6">
         <div>
-            <h3 class="text-2xl font-bold text-green-500">YouCodemy</h3>
-            <p class="mt-4 text-gray-600">Call: +123 400 123</p>
-            <p class="text-gray-600">Email: example@mail.com</p>
-            <div class="flex space-x-4 mt-4">
-                <a href="#" class="text-green-500 hover:text-green-600">FB</a>
-                <a href="#" class="text-green-500 hover:text-green-600">TW</a>
-                <a href="#" class="text-green-500 hover:text-green-600">LN</a>
-                <a href="#" class="text-green-500 hover:text-green-600">BE</a>
+            <label class="block text-gray-700 text-sm font-semibold mb-2">Select Role</label>
+            <div class="relative">
+                <input type="hidden" name="role" id="selectedRole">
+                <button
+                        type="button"
+                        id="roleButton"
+                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200 text-left text-gray-600 flex justify-between items-center"
+                        onclick="toggleRoleDropdown()">
+                    <span id="selectedRoleText">Choose your role</span>
+                    <svg class="fill-current h-4 w-4 transition-transform" id="dropdownArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                    </svg>
+                </button>
+                <div id="roleDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                    <div class="py-1">
+                        <button type="button" class="w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100" onclick="selectRole('student', 'Student')">Student</button>
+                        <button type="button" class="w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100" onclick="selectRole('teacher', 'Teacher')">Teacher</button>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- Rest of your form remains the same -->
+        ...
+    </form>
+</div>
 
-        <div>
-            <h3 class="text-xl font-bold text-gray-800">Explore</h3>
-            <ul class="mt-4 space-y-2">
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Home</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">About</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Course</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Blog</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Contact</a></li>
-            </ul>
-        </div>
+<script>
+    function toggleRoleDropdown() {
+        const dropdown = document.getElementById('roleDropdown');
+        const arrow = document.getElementById('dropdownArrow');
+        dropdown.classList.toggle('hidden');
+        arrow.classList.toggle('rotate-180');
+    }
 
+    function selectRole(value, text) {
+        document.getElementById('selectedRole').value = value;
+        document.getElementById('selectedRoleText').textContent = text;
+        toggleRoleDropdown();
+    }
 
-        <div>
-            <h3 class="text-xl font-bold text-gray-800">Category</h3>
-            <ul class="mt-4 space-y-2">
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Design</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Development</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Marketing</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Business</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Lifestyle</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-green-500">Music</a></li>
-            </ul>
-        </div>
-
-
-        <div>
-            <h3 class="text-xl font-bold text-gray-800">Subscribe</h3>
-            <p class="mt-4 text-gray-600">Get the latest updates and offers.</p>
-            <div class="mt-4">
-                <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-green-200 focus:outline-none">
-                <button class="w-full mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Sign up for Free</button>
-            </div>
-        </div>
-    </div>
-</footer>
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('roleDropdown');
+        const button = document.getElementById('roleButton');
+        if (!button.contains(event.target)) {
+            dropdown.classList.add('hidden');
+            document.getElementById('dropdownArrow').classList.remove('rotate-180');
+        }
+    });
+</script>
 </body>
 </html>

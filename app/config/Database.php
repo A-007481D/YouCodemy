@@ -2,10 +2,10 @@
 require_once 'env.php';
 
 
-class DatabaseConnection
+class Database
 {
 
-    public static DatabaseConnection $instance;
+    public static Database $instance;
     private PDO $pdo;
 
     private function __construct()
@@ -19,10 +19,10 @@ class DatabaseConnection
     }
 
 
-    public static function getInstance(): DatabaseConnection
+    public static function getInstance(): Database
     {
         if (!isset(self::$instance)) {
-            self::$instance = new DatabaseConnection();
+            self::$instance = new Database();
         }
         return self::$instance;
     }

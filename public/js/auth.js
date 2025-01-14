@@ -34,3 +34,6 @@ function toggleModal(mode = '') {
         modal.classList.add('hidden');
     }
 }
+
+
+

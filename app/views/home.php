@@ -1,3 +1,9 @@
+<?php
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -227,7 +233,7 @@
                         Welcome Back
                     </h2>
 
-                    <form method="POST" action="../Auth/auth.php" class="space-y-6">
+                    <form method="POST" action="/login" class="space-y-6">
                         <div>
                             <label class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
                             <input type="email" name="email_login" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Enter your email">
@@ -280,7 +286,7 @@
                         Create Account
                     </h2>
 
-                    <form method="POST" action="../Auth/auth.php" class="space-y-6">
+                    <form method="POST" action="/signup" class="space-y-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-700 text-sm font-semibold mb-2">First Name</label>
@@ -312,10 +318,18 @@
                             <input name="password_reg" type="password" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Confirm password">
                         </div> -->
 
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" id="check" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                            <span class="text-sm text-gray-600">I agree to the Terms and Conditions</span>
-                        </label>
+<!--                        <label class="flex items-center space-x-2">-->
+<!--                            <input type="checkbox" id="check" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">-->
+<!--                            <span class="text-sm text-gray-600">I agree to the Terms and Conditions</span>-->
+<!--                        </label>-->
+                        <div>
+                            <label class="block text-gray-700 text-sm font-semibold mb-2">Role</label>
+                            <select name="role" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200">
+                                <option value="" disabled selected>Select role</option>
+                                <option name="student" value="student">Student</option>
+                                <option name="teacher" value="teacher">Teacher</option>
+                            </select>
+                        </div>
 
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign Up
@@ -332,16 +346,16 @@
                             </div>
                         </div> -->
 
-                        <div class="mt-6 grid grid-cols-2 gap-4">
-                            <button class="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-300">
-                                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-5 w-5 mr-2">
-                                <span class="text-sm font-medium text-gray-700">Google</span>
-                            </button>
-                            <button class="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-300">
-                                <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" class="h-5 w-5 mr-2">
-                                <span class="text-sm font-medium text-gray-700">Facebook</span>
-                            </button>
-                        </div>
+<!--                        <div class="mt-6 grid grid-cols-2 gap-4">-->
+<!--                            <button class="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-300">-->
+<!--                                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-5 w-5 mr-2">-->
+<!--                                <span class="text-sm font-medium text-gray-700">Google</span>-->
+<!--                            </button>-->
+<!--                            <button class="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-300">-->
+<!--                                <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" class="h-5 w-5 mr-2">-->
+<!--                                <span class="text-sm font-medium text-gray-700">Facebook</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
