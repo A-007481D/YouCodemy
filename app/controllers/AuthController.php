@@ -99,14 +99,13 @@ class AuthController
             'email' => $user['email'],
             'role' => $user['role']
         ];
-        ob_start();
-        switch ($user['role']) {
+        var_dump($_SESSION);
+        switch ($_SESSION['user']['role']) {
             case 'student' : header('Location: /home'); break;
-            case 'instructor' : header('Location: /teacherDash.php'); break;
-            case 'admin' : header('Location: /adminDash.php'); break;
+            case 'instructor' : header('Location: /instructorDashboard.php'); break;
+            case 'admin' : header('Location: /adminDashboard.php'); break;
             default: echo "unknown role.";
         }
-        ob_end_flush();
         exit;
     }
 

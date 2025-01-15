@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,7 +13,7 @@ $route = new Route();
 $route->get('/', 'HomeController', 'index');
 $route->get('/home', 'HomeController', 'index');
 $route->post('/signup', 'AuthController', 'signup');
-$route->post('/login', 'AuthController', 'login');
+$route->post('/signin', 'AuthController', 'login');
 $route->get('/logout', 'AuthController', 'logout');
 $route->get('/adminDash', 'AdminController', 'dashboard');
 $route->get('/instructorDash', 'InstructorController', 'dashboard');
