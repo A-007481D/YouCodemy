@@ -1,6 +1,8 @@
 <?php
 namespace src\http;
 
+use App\models\UserModel;
+
 class Route
 {
     protected static array $routes = [];
@@ -32,7 +34,7 @@ class Route
                 $controller = "App\\controllers\\{$controller}";
 
                 if (class_exists($controller)) {
-                    $controllerInstance = new $controller();
+                    $controllerInstance = new $controller(new UserModel());
 
                     if (method_exists($controllerInstance, $action)) {
                         $controllerInstance->$action();

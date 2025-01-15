@@ -310,7 +310,7 @@
 
                         <div>
                             <label class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
-                            <input type="password" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Create password">
+                            <input type="password" name="password_reg" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Create password">
                         </div>
 
                         <!-- <div>
@@ -327,7 +327,7 @@
                             <select name="role" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200">
                                 <option value="" disabled selected>Select role</option>
                                 <option name="student" value="student">Student</option>
-                                <option name="teacher" value="teacher">Teacher</option>
+                                <option name="instructor" value="instructor">Instructor</option>
                             </select>
                         </div>
 

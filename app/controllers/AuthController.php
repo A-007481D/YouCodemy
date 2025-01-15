@@ -23,34 +23,40 @@ class AuthController
         $password = password_hash($_POST['password_reg'], PASSWORD_BCRYPT);
 
         if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($role)) {
-            echo "please fill in all fields";
+            echo "all fields are required";
             return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "invalid email";
+            echo "invalid email formal.";
             return;
         }
 
         if ($role === 'student') {
             $user = new Student($firstName, $lastName, $email, $password);
             $user->setRole('student');
+            $user->setAccountStatus('active');
             $registered = $this->userModel->createUser($user);
 
         } elseif ($role === 'instructor') {
             $user = new Instructor($firstName, $lastName, $email, $password);
-            $user->setApproved(false);
+            $user->setRole('instructor');
+            $user->setAccountStatus('pending');
             $registered = $this->userModel->createUser($user);
         } else {
-            echo "invalid role";
+            echo "invalid role.";
             return;
         }
-        if ($registered) {
-            echo "registeration successful. please wait for your account to be approved!";
-        } else {
-            echo "registeration failed. please try again later!";
-        }
 
+        if ($registered) {
+            if ($role === 'instructor') {
+                echo "your account is awaaiting approval, Please wait for admin approval.";
+            } else {
+                echo "registration successful";
+            }
+        } else {
+            echo "registration failed. try again later.";
+        }
     }
 
 
@@ -58,29 +64,40 @@ class AuthController
     {
         $email = trim($_POST['email_login']);
         $password = trim($_POST['password_login']);
+
         if (empty($email) || empty($password)) {
-            echo "please fill in all fields";
+            echo "Please fill in all fields.";
             return;
         }
 
         $user = $this->userModel->findByEmail($email);
         if (!$user) {
-            echo "user with this email does not exist";
+            echo "user not found with this email.";
             return;
         }
-        if (!password_verify($password, $user->password)) {
-            echo "invalid password";
+
+        if (!password_verify($password, $user['password'])) {
+            echo "invalid password.";
+            return;
+        }
+
+        if ($user['role'] === 'instructor' && $user['account_status'] === 'pending') {
+            echo "Your account is pending approval, Please wait for admin approval.";
+            return;
+        }
+
+        if ($user['account_status'] === 'suspended') {
+            echo "Your account has been suspended, Please contact support.";
             return;
         }
 
         session_start();
         $_SESSION['user'] = [
-            'id' => $user->id,
-            'F_name' => $user->F_name,
-            'L_name' => $user->L_name,
-            'email' => $user->email,
-            'role' => $user->role
-
+            'id' => $user['userID'],
+            'F_name' => $user['first_name'],
+            'L_name' => $user['last_name'],
+            'email' => $user['email'],
+            'role' => $user['role']
         ];
 
         echo "login successful.";

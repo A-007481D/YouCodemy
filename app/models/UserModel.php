@@ -13,13 +13,22 @@ class UserModel {
     }
 
     public function createUser(User $user): bool {
-        $insert = "INSERT INTO users (firstName, lastName, email, password, role) VALUES(:first_name, :last_name, :email, :password, :role)";
+        $firstName = $user->getFName();
+        $lastName = $user->getLName();
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+        $role = $user->getRole();
+        $accountStatus = $user->getAccountStatus();
+
+        $insert = "INSERT INTO users (first_name, last_name, email, password, role, account_status) 
+               VALUES(:first_name, :last_name, :email, :password, :role, :account_status)";
         $stmt = $this->pdo->prepare($insert);
         $stmt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+        $stmt->bindParam(':account_status', $accountStatus, PDO::PARAM_STR);
         return $stmt->execute();
     }
 
