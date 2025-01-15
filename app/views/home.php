@@ -233,7 +233,7 @@
                         Welcome Back
                     </h2>
 
-                    <form method="POST" action="/login" class="space-y-6">
+                    <form method="POST" action="/signin" class="space-y-6">
                         <div>
                             <label class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
                             <input type="email" name="email_login" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Enter your email">

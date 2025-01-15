@@ -1,0 +1,65 @@
+---
+title : Youdemy
+---
+classDiagram
+    class User {
+        - id: Inetger
+        - F_name: string
+        - L_name: string
+        - Email: string
+        - Password: string
+    }
+
+    class Admin {
+        - Username: String
+    }
+
+    class Teacher {
+        - Username: string
+    }
+
+    class Student {
+        - Username: string
+    }
+
+    class Course {
+        - id: int
+        -title: string
+        -description: string
+        -contentType: enum
+        -createdAt: date
+        -rating: float
+    }
+
+    class Category {
+        -id: int
+        -categoryName: string
+        -createdAt : date
+    }
+
+    class Tag {
+        -id: int
+        -tagName: string
+    }
+    class Enrollments {
+        -id: int
+        -enrolledAt: date
+        -completedAt: date
+        -isCompleted: bool
+    }
+
+
+    %% relationships
+
+
+    User <|-- Admin
+    User <|-- Teacher
+    User <|-- Student
+
+    Category "0" -- "many" Course : belongs to
+    Teacher "1" -- "many" Course : creates
+    Student "1" *-- "many" Enrollments: has
+    Course "1" *-- "many" Enrollments : has
+    Course "1" -- "many" Tag : has
+    Admin "1" -- "many" Category : creates
+    Admin "1" -- "many" Tag : creates

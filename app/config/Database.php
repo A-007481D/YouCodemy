@@ -1,4 +1,11 @@
 <?php
+
+namespace App\config;
+
+use \PDO;
+use \PDOException;
+use \Exception;
+
 require_once 'env.php';
 
 
@@ -28,7 +35,8 @@ class Database
     }
 
 
-    public function getConnection() : PDO {
+    public function getConnection(): PDO
+    {
         return $this->pdo;
     }
 }

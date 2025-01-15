@@ -7,11 +7,11 @@ use src\http\Route;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Initialize the route system
 $route = new Route();
 
-// Define routes
 $route->get('/', 'HomeController', 'index');
+$route->get('/home', 'HomeController', 'index');
+$route->post('/signup', 'AuthController', 'signup');
 
-// Resolve the request
+
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
