@@ -12,7 +12,7 @@ class User {
     protected string $role;
     private string $accountStatus = 'active';
 
-    public function __construct(string $F_name, string $L_name, string $email, $password = null) {
+    public function __construct(string $F_name, string $L_name, string $email, $password = "") {
         $this->F_name = $F_name;
         $this->L_name = $L_name;
         $this->email = $email;

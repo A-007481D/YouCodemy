@@ -3,15 +3,16 @@
 namespace App\controllers;
 use App\entities\Instructor;
 use App\entities\Student;
+use App\models\interfaces\IUserModel;
 use App\models\UserModel;
 
 class AuthController
 {
-    private UserModel $userModel;
+    private IUserModel $userModel;
 
-    public function __construct(UserModel $userModel)
+    public function __construct()
     {
-        $this->userModel = new UserModel();
+            $this->userModel = new UserModel();
     }
 
     public function signup(): void
@@ -71,6 +72,8 @@ class AuthController
         }
 
         $user = $this->userModel->findByEmail($email);
+
+
         if (!$user) {
             echo "user not found with this email.";
             return;

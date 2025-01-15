@@ -1,18 +1,24 @@
 <?php
+
 namespace App\models;
 
 use App\entities\User;
 use App\config\Database;
+use App\models\interfaces\IUserModel;
 use PDO;
 
 
-class UserModel {
+class UserModel implements IUserModel
+{
     private PDO $pdo;
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function createUser(User $user): bool {
+    public function createUser(User $user): bool
+    {
         $firstName = $user->getFName();
         $lastName = $user->getLName();
         $email = $user->getEmail();
@@ -32,12 +38,19 @@ class UserModel {
         return $stmt->execute();
     }
 
-    public static function findByEmail(string $email): ?array {
-        $pdo = Database::getInstance()->getConnection();
-        $search = "SELECT * FROM users WHERE email = :email LIMIT 1";
-        $stmt = $pdo->prepare($search);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    public function findByEmail(string $email): ?User
+    {
+
+
+        $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->execute(
+            ["email" => $email]
+        );
+        $res =  $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+        return  new User($res["first_name"] , $res["last_name"] , $res["email"] , "");
     }
 
-} //endof
+}

@@ -34,7 +34,8 @@ class Route
                 $controller = "App\\controllers\\{$controller}";
 
                 if (class_exists($controller)) {
-                    $controllerInstance = new $controller(new UserModel());
+
+                    $controllerInstance = new $controller();
 
                     if (method_exists($controllerInstance, $action)) {
                         $controllerInstance->$action();
