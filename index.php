@@ -13,6 +13,8 @@ $route->get('/', 'HomeController', 'index');
 $route->get('/home', 'HomeController', 'index');
 $route->post('/signup', 'AuthController', 'signup');
 $route->post('/login', 'AuthController', 'login');
-
+$route->get('/logout', 'AuthController', 'logout');
+$route->get('/adminDash', 'AdminController', 'dashboard');
+$route->get('/instructorDash', 'InstructorController', 'dashboard');
 
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

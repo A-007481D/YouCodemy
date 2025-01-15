@@ -1,8 +1,3 @@
-<?php
-
-?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,17 +10,23 @@
 </head>
 
 <body class="bg-green-50 font-sans">
-<header class="bg-white drop-shadow-md px-20 ">
-        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold text-green-500">YouCodemy</a>
-            <nav class="flex space-x-6 text-gray-700">
-                <a href="#" class="hover:text-green-500">Home</a>
-                <a href="#" class="hover:text-green-500">About</a>
-                <a href="courses.php" class="hover:text-green-500">Courses</a>
-                <a href="#" class="hover:text-green-500">Blog</a>
-                <a href="#" class="hover:text-green-500">Contact</a>
-            </nav>
-            <div class="flex space-x-4">
+<header class="bg-white drop-shadow-md px-20">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#" class="text-2xl font-bold text-green-500">YouCodemy</a>
+        <nav class="flex space-x-6 text-gray-700">
+            <a href="#" class="hover:text-green-500">Home</a>
+            <a href="#" class="hover:text-green-500">About</a>
+            <a href="courses.php" class="hover:text-green-500">Courses</a>
+            <a href="#" class="hover:text-green-500">Blog</a>
+            <a href="#" class="hover:text-green-500">Contact</a>
+        </nav>
+        <div class="flex space-x-4">
+            <?php if (isset($_SESSION['user'])): ?>
+                <div class="flex items-center gap-2 font-medium">
+                    <span class="text-gray-700">Welcome, <?= htmlspecialchars($_SESSION['user']['first_name']) ?>!</span>
+                    <a href="/logout" class="text-red-500 hover:underline">Logout</a>
+                </div>
+            <?php else: ?>
                 <div class="flex items-center gap-2 font-medium cursor-pointer hover:underline hover:text-green-500" onclick="toggleModal('login')">
                     <svg fill="#000000" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.00 485.00">
                         <path d="M345,175v-72.5C345,45.981,299.019,0,242.5,0S140,45.981,140,102.5V175H70v310h345V175H345z M170,102.5 c0-39.977,32.523-72.5,72.5-72.5S315,62.523,315,102.5V175H170V102.5z M385,455H100V205h285V455z"></path>
@@ -34,9 +35,11 @@
                     <a href="#" class="text-gray-700 hover:text-green-500">Login</a>
                 </div>
                 <a href="#" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600" onclick="toggleModal('signup')">Sign up</a>
-            </div>
+            <?php endif; ?>
         </div>
-    </header>
+    </div>
+</header>
+
 
     <section class="bg-green-50 py-16 px-20">
         <div class="container mx-auto px-6 text-center md:text-left">

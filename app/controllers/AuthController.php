@@ -99,7 +99,23 @@ class AuthController
             'email' => $user['email'],
             'role' => $user['role']
         ];
-
-        echo "login successful.";
+        ob_start();
+        switch ($user['role']) {
+            case 'student' : header('Location: /home'); break;
+            case 'instructor' : header('Location: /teacherDash.php'); break;
+            case 'admin' : header('Location: /adminDash.php'); break;
+            default: echo "unknown role.";
+        }
+        ob_end_flush();
+        exit;
     }
+
+
+    public function logout(): void {
+        session_start();
+        session_destroy();
+        header('Location: /');
+    }
+
+
 }

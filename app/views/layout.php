@@ -12,7 +12,7 @@
     <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
         Create Account
     </h2>
-    <form method="POST" action="../Auth/auth.php" class="space-y-6">
+    <form method="POST" action="/" class="space-y-6">
         <div>
             <label class="block text-gray-700 text-sm font-semibold mb-2">Select Role</label>
             <div class="relative">
