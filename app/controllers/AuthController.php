@@ -1,10 +1,9 @@
 <?php
 
 namespace App\controllers;
-use App\entities\Teacher;
+use App\entities\Instructor;
 use App\entities\Student;
 use App\models\UserModel;
-
 
 class AuthController
 {
@@ -15,7 +14,7 @@ class AuthController
         $this->userModel = new UserModel();
     }
 
-    public function singup(): void
+    public function signup(): void
     {
         $firstName = trim($_POST['F_name']);
         $lastName = trim($_POST['L_name']);
@@ -38,8 +37,8 @@ class AuthController
             $user->setRole('student');
             $registered = $this->userModel->createUser($user);
 
-        } elseif ($role === 'teacher') {
-            $user = new Teacher($firstName, $lastName, $email, $password);
+        } elseif ($role === 'instructor') {
+            $user = new Instructor($firstName, $lastName, $email, $password);
             $user->setApproved(false);
             $registered = $this->userModel->createUser($user);
         } else {

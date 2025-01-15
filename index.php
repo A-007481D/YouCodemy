@@ -12,6 +12,7 @@ $route = new Route();
 $route->get('/', 'HomeController', 'index');
 $route->get('/home', 'HomeController', 'index');
 $route->post('/signup', 'AuthController', 'signup');
+$route->post('/login', 'AuthController', 'login');
 
 
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

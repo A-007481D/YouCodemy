@@ -21,34 +21,14 @@ class UserModel {
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->bindParam(':role', $role, PDO::PARAM_STR);
         return $stmt->execute();
-
-
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static function findByEmail(string $email): ?array {
+        $pdo = Database::getInstance()->getConnection();
+        $search = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $stmt = $pdo->prepare($search);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
 
 } //endof
