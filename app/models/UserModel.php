@@ -40,17 +40,19 @@ class UserModel implements IUserModel
 
     public function findByEmail(string $email): ?User
     {
-
-
         $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
         $stmt = $this->pdo->prepare($query);
-
-        $stmt->execute(
-            ["email" => $email]
-        );
-        $res =  $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-
-        return  new User($res["first_name"] , $res["last_name"] , $res["email"] , "");
+        $stmt->execute(['email' => $email]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$res) {
+            return null;
+        }
+        $user = new User($res['first_name'], $res['last_name'], $res['email'], $res['password']);
+        $user->setId($res['userID']);
+        $user->setRole($res['role']);
+        $user->setAccountStatus($res['account_status']);
+        return $user;
     }
+
 
 }

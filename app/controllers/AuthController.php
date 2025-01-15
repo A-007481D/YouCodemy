@@ -73,42 +73,43 @@ class AuthController
 
         $user = $this->userModel->findByEmail($email);
 
-
         if (!$user) {
-            echo "user not found with this email.";
+            echo "User not found with this email.";
             return;
         }
 
-        if (!password_verify($password, $user['password'])) {
-            echo "invalid password.";
+        if (!password_verify($password, $user->getPassword())) {
+            echo "Invalid password.";
             return;
         }
 
-        if ($user['role'] === 'instructor' && $user['account_status'] === 'pending') {
-            echo "Your account is pending approval, Please wait for admin approval.";
+        if ($user->getRole() === 'instructor' && $user->getAccountStatus() === 'pending') {
+            echo "Your account is pending approval. Please wait for admin approval.";
             return;
         }
 
-        if ($user['account_status'] === 'suspended') {
-            echo "Your account has been suspended, Please contact support.";
+        if ($user->getAccountStatus() === 'suspended') {
+            echo "Your account has been suspended. Please contact support.";
             return;
         }
 
-        session_start();
-        $_SESSION['user'] = [
-            'id' => $user['userID'],
-            'F_name' => $user['first_name'],
-            'L_name' => $user['last_name'],
-            'email' => $user['email'],
-            'role' => $user['role']
-        ];
-        var_dump($_SESSION);
-        switch ($_SESSION['user']['role']) {
-            case 'student' : header('Location: /home'); break;
-            case 'instructor' : header('Location: /instructorDashboard.php'); break;
-            case 'admin' : header('Location: /adminDashboard.php'); break;
-            default: echo "unknown role.";
+        $_SESSION['user'] = $user; // Storing the User object in the session
+
+        // Use object methods to access properties
+        switch ($_SESSION['user']->getRole()) {
+            case 'student':
+                header('Location: /home');
+                break;
+            case 'instructor':
+                header('Location: /instructorDashboard.php');
+                break;
+            case 'admin':
+                header('Location: /adminDashboard.php');
+                break;
+            default:
+                echo "Unknown role.";
         }
+
         exit;
     }
 
