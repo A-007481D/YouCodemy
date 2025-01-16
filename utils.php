@@ -8,12 +8,16 @@ function isAdmin(): bool
     return false;
 }
 
-function isInstructor(): bool
-{
-    if (isset($_SESSION['instructor'])) {
-        return true;
-    }
-    return false;
+//function isInstructor(): bool
+//{
+//    if (isset($_SESSION['instructor'])) {
+//        return true;
+//    }
+//    return false;
+//}
+
+function isInstructor(): bool {
+    return isset($_SESSION['user']) && $_SESSION['user']->getRole() === 'instructor';
 }
 
 function isStudent(): bool

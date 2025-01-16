@@ -99,27 +99,31 @@ class AuthController
 
         $_SESSION['user'] = $user;
 
+//        dd($_SESSION['user']);
+
         switch ($user->getRole()) {
             case 'student':
                 header('Location: /home');
                 break;
             case 'instructor':
-                header('Location: /instructorDashboard.php');
+                header('Location: /instructor/dashboard');
                 break;
             case 'admin':
-                header('Location: /adminDashboard.php');
+                header('Location: /admin/dashboard');
                 break;
             default:
                 echo "Unknown role.";
         }
-
         exit;
     }
 
+
     public function logout(): void {
         session_start();
+        unset($_SESSION['user']);
         session_destroy();
         header('Location: /');
+        exit;
     }
 
     private function sendError(string $message, string $form = 'signup'): void

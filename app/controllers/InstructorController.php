@@ -4,10 +4,23 @@ namespace App\controllers;
 
 class InstructorController
 {
-    public function dahsboard(): void {
+    public function dashboard(): void {
        if(!isInstructor()){
-          header("location: /");
+          header("Location: /");
+          exit;
        }
         require_once "app/views/instructorDashboard.php";
     }
+
+//}
+
+//    public function dashboard(): void {
+//        if (!isInstructor()) {
+//            dd($_SESSION['user']);
+//        }
+//        require_once "app/views/instructorDashboard.php";
+//    }
+
+
+
 }
