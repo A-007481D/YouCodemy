@@ -10,124 +10,116 @@
 
     ?>
 
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouCodemy | Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YouCodemy | Admin Dashboard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
 
-<body class="bg-gray-100">
-<div class="flex h-screen">
-    <aside class="w-64 bg-white shadow-lg">
-        <div class="p-6">
-            <a href="/home" class="text-2xl font-bold text-blue-600">YouCodemy</a>
-        </div>
-        <nav class="mt-6 px-6">
-            <div class="space-y-4">
-                <a href="../index.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">🏠</span> Home
-                </a>
-                <a href="../pages/reservationsDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">📋</span> Reservations
-                </a>
-                <a href="../pages/vehiclesDash.php" class="flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">🚗</span> Users
-                </a>
-                <a href="../pages/categoryDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">📁</span> Categories
-                </a>
-                <a href="../pages/adminDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">👥</span> Manage Users
-                </a>
-                <a href="../pages/reviewsDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">💬</span> Reviews
-                </a>
-                <a href="../pages/blogDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
-                    <span class="mr-3">📝</span> Blogs
-                </a>
+    <body class="bg-gray-100">
+    <div class="flex h-screen">
+        <aside class="w-64 bg-white shadow-lg">
+            <div class="p-6">
+                <a href="/home" class="text-2xl font-bold text-blue-600">YouCodemy</a>
             </div>
-        </nav>
-        <div class="absolute bottom-0 w-64 p-4 border-t border-gray-200">
-            <form method="POST" action="/logout">
-                <button class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
-                    Logout
-                </button>
-            </form>
-        </div>
-    </aside>
-
-    <main class="flex-1 overflow-y-auto">
-        <div class="p-8">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-2xl font-bold text-gray-800">YouCodemy Admin Dashboard</h1>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-lg font-medium text-gray-700">Manage</h2>
-                    <button onclick="document.getElementById('addUserModal').classList.remove('hidden')"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
-                        <span class="mr-2">+</span> Add User
+            <nav class="mt-6 px-6">
+                <div class="space-y-4">
+                    <a href="../index.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">🏠</span> Home
+                    </a>
+                    <a href="../pages/reservationsDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">📋</span> Reservations
+                    </a>
+                    <a href="../pages/vehiclesDash.php" class="flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">🚗</span> Users
+                    </a>
+                    <a href="../pages/categoryDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">📁</span> Categories
+                    </a>
+                    <a href="../pages/adminDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">👥</span> Manage Users
+                    </a>
+                    <a href="../pages/reviewsDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">💬</span> Reviews
+                    </a>
+                    <a href="../pages/blogDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <span class="mr-3">📝</span> Blogs
+                    </a>
+                </div>
+            </nav>
+            <div class="absolute bottom-0 w-64 p-4 border-t border-gray-200">
+                <form method="POST" action="/logout">
+                    <button class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        Logout
                     </button>
-
-                </div>
+                </form>
             </div>
+        </aside>
 
-            <div class="bg-white rounded-lg shadow-md">
-                <div class="p-6 border-b">
-                    <h2 class="text-lg font-medium text-gray-700">Users List</h2>
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800">YouCodemy Admin Dashboard</h1>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead>
-                        <tr class="bg-gray-50">
-                            <th class="p-4">ID</th>
-                            <th class="p-4">First Name</th>
-                            <th class="p-4">Last Name</th>
-                            <th class="p-4">Email</th>
-                            <th class="p-4">Role</th>
-                            <th class="p-4">Status</th>
-                            <th class="p-4">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($users as $user): ?>
-                            <tr class="border-b">
-                                <td class="p-4"><?= htmlspecialchars($user->getId()) ?></td>
-                                <td class="p-4"><?= htmlspecialchars($user->getFName()) ?></td>
-                                <td class="p-4"><?= htmlspecialchars($user->getLName()) ?></td>
-                                <td class="p-4"><?= htmlspecialchars($user->getEmail()) ?></td>
-                                <td class="p-4"><?= htmlspecialchars($user->getRole()) ?></td>
-                                <td class="p-4"><?= htmlspecialchars($user->getAccountStatus()) ?></td>
-                                <td class="flex p-4 space-x-2">
-                                    <form method="POST" action="/admin/manage-user">
-                                        <input type="hidden" name="action" value="activate">
-                                        <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
-                                        <button type="submit" class="px-2 py-1 bg-green-500 text-white rounded-lg">Activate</button>
-                                    </form>
-                                    <form method="POST" action="/admin/manage-user">
-                                        <input type="hidden" name="action" value="suspend">
-                                        <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
-                                        <button type="submit" class="px-2 py-1 bg-yellow-500 text-white rounded-lg">Suspend</button>
-                                    </form>
-                                    <form method="POST" action="/admin/manage-user">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
-                                        <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded-lg">Delete</button>
-                                    </form>
-                                </td>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-medium text-gray-700">Manage</h2>
+                        <button onclick="document.getElementById('addUserModal').classList.remove('hidden')"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                            <span class="mr-2">+</span> Add User
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="p-6 border-b">
+                        <h2 class="text-lg font-medium text-gray-700">Users List</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">User ID</th>
+                                <th class="py-2 px-4 border-b">Full Name</th>
+                                <th class="py-2 px-4 border-b">Email</th>
+                                <th class="py-2 px-4 border-b">Role</th>
+                                <th class="py-2 px-4 border-b">Status</th>
+                                <th class="py-2 px-4 border-b">Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($users as $user): ?>
+                                <tr>
+                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($user->getId()) ?></td>
+                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($user->getFName() . ' ' . $user->getLName()) ?></td>
+                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($user->getEmail()) ?></td>
+                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($user->getRole()) ?></td>
+                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($user->getAccountStatus()) ?></td>
+                                    <td class="py-2 px-4 border-b">
+                                        <form action="/admin/manage-user" method="POST" class="inline">
+                                            <input type="hidden" name="userID" value="<?= htmlspecialchars($user->getId()) ?>">
+                                            <?php if ($user->getAccountStatus() === 'active'): ?>
+                                                <button type="submit" name="action" value="suspend" class="bg-yellow-500 text-white px-4 py-1 rounded">Suspend</button>
+                                            <?php else: ?>
+                                                <button type="submit" name="action" value="activate" class="bg-green-500 text-white px-4 py-1 rounded">Activate</button>
+                                            <?php endif; ?>
+                                            <button type="submit" name="action" value="delete" class="bg-red-500 text-white px-4 py-1 rounded" onclick="return confirmDelete()">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 
 <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
     <div class="bg-white rounded-lg w-full max-w-2xl p-6">
@@ -274,7 +266,11 @@
     </div>
 </div>
 
-<script src="../JS/getUser.js"></script>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this user?");
+        }
+    </script>
 </body>
 
 </html>
