@@ -22,7 +22,7 @@
             <div class="flex space-x-4">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="flex items-center gap-2 font-medium">
-                        <span class="text-gray-700">Welcome, <?= htmlspecialchars($_SESSION['user']->getFName()); ?>!</span>
+                        <span class="text-gray-700">Welcome, <?= htmlspecialchars($_SESSION['user']->getFName());?>!</span>
                         <a href="/logout" class="text-red-500 hover:underline">Logout</a>
                     </div>
                 <?php else: ?>
@@ -253,7 +253,12 @@
                             </label>
                             <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
                         </div>
-
+                        <?php if (!empty($_SESSION['login_error'])):?>
+                            <div class="text-red-500 text-sm mt-2 text-center">
+                                <?= htmlspecialchars($_SESSION['login_error']);?>
+                            </div>
+                            <?php unset($_SESSION['login_error']);?>
+                        <?php endif; ?>
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign in
                         </button>
@@ -332,7 +337,12 @@
                                 <option name="instructor" value="instructor">Instructor</option>
                             </select>
                         </div>
-
+                        <?php if(!empty($_SESSION['signup_error'])): ?>
+                        <div class="text-red-500 text-sm mt-2">
+                            <?= $_SESSION['signup_error'] ?>
+                        </div>
+                        <?php unset($_SESSION['signup_error']); ?>
+                        <?php endif; ?>
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign Up
                         </button>

@@ -24,12 +24,12 @@ class AuthController
         $password = password_hash($_POST['password_reg'], PASSWORD_BCRYPT);
 
         if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($role)) {
-            echo "all fields are required";
+            $_SESSION['signup_error'] = "All fields are required";
             return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "invalid email formal.";
+            $_SESSION['signup_error'] = "Invalid email format";
             return;
         }
 
@@ -45,18 +45,18 @@ class AuthController
             $user->setAccountStatus('pending');
             $registered = $this->userModel->createUser($user);
         } else {
-            echo "invalid role.";
+            $_SESSION['signup_error'] = "Invalid role";
             return;
         }
 
         if ($registered) {
             if ($role === 'instructor') {
-                echo "your account is awaaiting approval, Please wait for admin approval.";
+                $_SESSION['signup_error'] = "Registered successfully, Please wait for account approval!";
             } else {
-                echo "registration successful";
+                $_SESSION['signup_error'] = "Registered successful";
             }
         } else {
-            echo "registration failed. try again later.";
+            $_SESSION['signup_error'] = "Something went wrong, please try again later!";
         }
     }
 
@@ -67,35 +67,40 @@ class AuthController
         $password = trim($_POST['password_login']);
 
         if (empty($email) || empty($password)) {
-            echo "Please fill in all fields.";
+            $_SESSION['login_error'] = "Please fill in all fields.";
+//            header('Location: /');
             return;
         }
 
         $user = $this->userModel->findByEmail($email);
 
         if (!$user) {
-            echo "User not found with this email.";
+           $_SESSION['login_error'] = "User not found with this email.";
+//           header('Location: /');
             return;
         }
 
         if (!password_verify($password, $user->getPassword())) {
-            echo "Invalid password.";
+            $_SESSION['login_error'] = "Invalid password.";
+//            header('Location: /');
             return;
         }
 
         if ($user->getRole() === 'instructor' && $user->getAccountStatus() === 'pending') {
-            echo "Your account is pending approval. Please wait for admin approval.";
+            $_SESSION['login_error'] = "Your account is awaiting approval, Please wait for admin approval.";
+//            header("location: /");
             return;
         }
 
         if ($user->getAccountStatus() === 'suspended') {
-            echo "Your account has been suspended. Please contact support.";
+            $_SESSION['login_error'] = "Your account has been suspended. Please contact support.";
+//            header('Location: /');
             return;
         }
 
-        $_SESSION['user'] = $user; // Storing the User object in the session
+        $_SESSION['user'] = $user;
+        header('Location: /');
 
-        // Use object methods to access properties
         switch ($_SESSION['user']->getRole()) {
             case 'student':
                 header('Location: /home');
