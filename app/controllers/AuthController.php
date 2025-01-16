@@ -24,42 +24,46 @@ class AuthController
         $password = password_hash($_POST['password_reg'], PASSWORD_BCRYPT);
 
         if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($role)) {
-            $_SESSION['signup_error'] = "All fields are required";
+            $this->sendError("All fields are required");
             return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['signup_error'] = "Invalid email format";
+            $this->sendError("Invalid email format");
             return;
         }
 
+        $user = null;
         if ($role === 'student') {
             $user = new Student($firstName, $lastName, $email, $password);
             $user->setRole('student');
             $user->setAccountStatus('active');
-            $registered = $this->userModel->createUser($user);
-
         } elseif ($role === 'instructor') {
             $user = new Instructor($firstName, $lastName, $email, $password);
             $user->setRole('instructor');
             $user->setAccountStatus('pending');
-            $registered = $this->userModel->createUser($user);
         } else {
-            $_SESSION['signup_error'] = "Invalid role";
+            $this->sendError("Invalid role");
             return;
         }
 
+        $registered = $this->userModel->createUser($user);
+
         if ($registered) {
-            if ($role === 'instructor') {
-                $_SESSION['signup_error'] = "Registered successfully, Please wait for account approval!";
+            $successMessage = ($role === 'instructor') 
+                ? "Registered successfully, Please wait for account approval!"
+                : "Registered successfully!";
+
+            if ($this->isHtmxRequest()) {
+                echo $this->renderPartial($successMessage);
             } else {
-                $_SESSION['signup_error'] = "Registered successful";
+                $_SESSION['signup_success'] = $successMessage;
+                header("Location: /login");
             }
         } else {
-            $_SESSION['signup_error'] = "Something went wrong, please try again later!";
+            $this->sendError("Something went wrong, please try again later!");
         }
     }
-
 
     public function login(): void
     {
@@ -67,41 +71,35 @@ class AuthController
         $password = trim($_POST['password_login']);
 
         if (empty($email) || empty($password)) {
-            $_SESSION['login_error'] = "Please fill in all fields.";
-//            header('Location: /');
+            $this->sendError("Please fill in all fields.", 'login');
             return;
         }
 
         $user = $this->userModel->findByEmail($email);
 
         if (!$user) {
-           $_SESSION['login_error'] = "User not found with this email.";
-//           header('Location: /');
+            $this->sendError("User not found with this email.", 'login');
             return;
         }
 
         if (!password_verify($password, $user->getPassword())) {
-            $_SESSION['login_error'] = "Invalid password.";
-//            header('Location: /');
+            $this->sendError("Invalid password.", 'login');
             return;
         }
 
         if ($user->getRole() === 'instructor' && $user->getAccountStatus() === 'pending') {
-            $_SESSION['login_error'] = "Your account is awaiting approval, Please wait for admin approval.";
-//            header("location: /");
+            $this->sendError("Your account is awaiting approval, Please wait for admin approval.", 'login');
             return;
         }
 
         if ($user->getAccountStatus() === 'suspended') {
-            $_SESSION['login_error'] = "Your account has been suspended. Please contact support.";
-//            header('Location: /');
+            $this->sendError("Your account has been suspended. Please contact support.", 'login');
             return;
         }
 
         $_SESSION['user'] = $user;
-        header('Location: /');
 
-        switch ($_SESSION['user']->getRole()) {
+        switch ($user->getRole()) {
             case 'student':
                 header('Location: /home');
                 break;
@@ -118,12 +116,29 @@ class AuthController
         exit;
     }
 
-
     public function logout(): void {
         session_start();
         session_destroy();
         header('Location: /');
     }
 
+    private function sendError(string $message, string $form = 'signup'): void
+    {
+        if ($this->isHtmxRequest()) {
+            echo $this->renderPartial($message);
+        } else {
+            $_SESSION[$form . '_error'] = $message;
+            header("Location: /" . ($form === 'signup' ? 'signup' : 'login'));
+        }
+    }
 
+    private function isHtmxRequest(): bool
+    {
+        return isset($_SERVER['HTTP_HX_REQUEST']) && $_SERVER['HTTP_HX_REQUEST'] === 'true';
+    }
+
+    private function renderPartial(string $msg): string
+    {
+        return "<div class='text-red-500 text-sm mt-2 text-center'>{$msg}</div>";
+    }
 }

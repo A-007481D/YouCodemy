@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>YouCodemy - Education Platform</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
+
     </head>
 
     <body class="bg-green-50 font-sans">
@@ -235,7 +238,7 @@
                         Welcome Back
                     </h2>
 
-                    <form method="POST" action="/signin" class="space-y-6">
+                    <form hx-post="/signin" hx-target="#loginError" hx-swap="innerHTML" class="space-y-6">
                         <div>
                             <label class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
                             <input type="email" name="email_login" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Enter your email">
@@ -253,12 +256,14 @@
                             </label>
                             <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
                         </div>
-                        <?php if (!empty($_SESSION['login_error'])):?>
-                            <div class="text-red-500 text-sm mt-2 text-center">
-                                <?= htmlspecialchars($_SESSION['login_error']);?>
-                            </div>
-                            <?php unset($_SESSION['login_error']);?>
-                        <?php endif; ?>
+<!--                        --><?php //if (!empty($_SESSION['login_error'])):?>
+<!--                            <div class="text-red-500 text-sm mt-2 text-center">-->
+<!--                                --><?php //= htmlspecialchars($_SESSION['login_error']);?>
+<!--                            </div>-->
+<!--                            --><?php //unset($_SESSION['login_error']);?>
+<!--                        --><?php //endif; ?>
+                        <div id="loginError" class="text-red-500 text-sm mt-2 text-center"></div>
+
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign in
                         </button>
@@ -293,7 +298,7 @@
                         Create Account
                     </h2>
 
-                    <form method="POST" action="/signup" class="space-y-6">
+                    <form hx-post="/signup" hx-target="#signupError" hx-swap="innerHTML" class="space-y-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-700 text-sm font-semibold mb-2">First Name</label>
@@ -337,12 +342,14 @@
                                 <option name="instructor" value="instructor">Instructor</option>
                             </select>
                         </div>
-                        <?php if(!empty($_SESSION['signup_error'])): ?>
-                        <div class="text-red-500 text-sm mt-2">
-                            <?= $_SESSION['signup_error'] ?>
-                        </div>
-                        <?php unset($_SESSION['signup_error']); ?>
-                        <?php endif; ?>
+<!--                        --><?php //if(!empty($_SESSION['signup_error'])): ?>
+<!--                        <div class="text-red-500 text-sm mt-2">-->
+<!--                            --><?php //= $_SESSION['signup_error'] ?>
+<!--                        </div>-->
+<!--                        --><?php //unset($_SESSION['signup_error']); ?>
+<!--                        --><?php //endif; ?>
+                        <div id="signupError" class="text-red-500 text-sm mt-2"></div>
+
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign Up
                         </button>
