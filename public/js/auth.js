@@ -35,5 +35,17 @@ function toggleModal(mode = '') {
     }
 }
 
+// testing form open close w htmx
+document.addEventListener("htmx:beforeRequest", function (event) {
+    const redirectHeader = event.detail.requestHeaders["HX-Redirect"];
+    if (redirectHeader) {
+        const modal = document.getElementById("loginModal");
+        if (modal) {
+            modal.classList.add("hidden");
+        }
+    }
+});
+
+
 
 

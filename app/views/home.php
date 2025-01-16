@@ -238,7 +238,7 @@
                         Welcome Back
                     </h2>
 
-                        <form hx-post="/signin" hx-target="#loginError" hx-swap="none" class="space-y-6">
+                        <form hx-post="/signin" hx-target="#login-errors" hx-swap="none" class="space-y-6">
                         <div>
                             <label class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
                             <input type="email" name="email_login" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:outline-none transition duration-200" placeholder="Enter your email">
@@ -262,7 +262,7 @@
 <!--                            </div>-->
 <!--                            --><?php //unset($_SESSION['login_error']);?>
 <!--                        --><?php //endif; ?>
-                        <div id="loginError" class="text-red-500 text-sm mt-2 text-center"></div>
+                        <div id="login-errors" class="text-red-500 text-sm mt-2 text-center"></div>
 
                         <button type="submit" class="w-full bg-[#16a34a] text-white py-3 rounded-lg font-semibold hover:bg-[#16a34a] transition-colors duration-300 shadow-lg hover:shadow-green-500/50">
                             Sign in

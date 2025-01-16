@@ -100,19 +100,17 @@ class AuthController
         $_SESSION['user'] = $user;
 
 //        dd($_SESSION['user']);
+        $redirectUrl = match ($user->getRole()) {
+            'student' => '/home',
+            'instructor' => '/instructor/dashboard',
+            'admin' => '/admin/dashboard',
+            default => '/',
+        };
 
-        switch ($user->getRole()) {
-            case 'student':
-                header('Location: /home');
-                break;
-            case 'instructor':
-                header('Location: /instructor/dashboard');
-                break;
-            case 'admin':
-                header('Location: /admin/dashboard');
-                break;
-            default:
-                echo "Unknown role.";
+        if ($this->isHtmxRequest()) {
+            header('HX-Redirect: ' . $redirectUrl);
+        } else {
+            header('Location: ' . $redirectUrl);
         }
         exit;
     }
@@ -129,11 +127,12 @@ class AuthController
     private function sendError(string $message, string $form = 'signup'): void
     {
         if ($this->isHtmxRequest()) {
-            echo $this->renderPartial($message);
+            echo "<div class='text-red-500 text-sm mt-2 text-center'>{$message}</div>";
         } else {
             $_SESSION[$form . '_error'] = $message;
             header("Location: /" . ($form === 'signup' ? 'signup' : 'login'));
         }
+        exit;
     }
 
     private function isHtmxRequest(): bool
