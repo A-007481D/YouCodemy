@@ -38,4 +38,5 @@ class User {
     public function setAccountStatus(string $status): void {$this->accountStatus = $status;}
     public function setId(int $id): void {$this->id = $id;}
 
+
 }

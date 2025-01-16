@@ -54,5 +54,37 @@ class UserModel implements IUserModel
         return $user;
     }
 
+    public function getAllUsers(): array
+    {
+        $query = "SELECT * FROM users";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        foreach ($res as $user) {
+            $users[] = new User($user['first_name'], $user['last_name'], $user['email'], $user['password']);
+            $user->setId($user['userID']);
+            $user->setRole($user['role']);
+            $user->setAccountStatus($user['account_status']);
+            $users[] = $user;
+        }
+        return $users;
+    }
 
+    public function updateStatus(mixed $userId, string $string): void
+    {
+        $query = "UPDATE users SET account_status = :status WHERE userID = :userID";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->bindParam(':status', $string, PDO::PARAM_STR);
+    $stmt->bindParam(':userID', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+    }
+
+    public function deleteUser(mixed $userId): void
+    {
+        $query = "DELETE FROM users WHERE userID = :userID";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userID', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
