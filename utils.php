@@ -2,10 +2,11 @@
 
 function isAdmin(): bool
 {
-    if (isset($_SESSION['admin'])) {
-        return true;
-    }
-    return false;
+//    if (isset($_SESSION['admin'])) {
+//        return true;
+//    }
+//    return false;
+    return isset($_SESSION['user']) && $_SESSION['user']->getRole() === 'admin';
 }
 
 //function isInstructor(): bool

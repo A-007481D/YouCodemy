@@ -61,15 +61,23 @@ class UserModel implements IUserModel
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
-        foreach ($res as $user) {
-            $users[] = new User($user['first_name'], $user['last_name'], $user['email'], $user['password']);
-            $user->setId($user['userID']);
-            $user->setRole($user['role']);
-            $user->setAccountStatus($user['account_status']);
+
+        foreach ($res as $userData) {
+            // Create a new User object
+            $user = new User($userData['first_name'], $userData['last_name'], $userData['email'], $userData['password']);
+
+            // Set additional properties
+            $user->setId($userData['userID']);
+            $user->setRole($userData['role']);
+            $user->setAccountStatus($userData['account_status']);
+
+            // Add the User object to the $users array
             $users[] = $user;
         }
+
         return $users;
     }
+
 
     public function updateStatus(mixed $userId, string $string): void
     {
