@@ -28,7 +28,7 @@
             </div>
             <nav class="mt-6 px-6">
                 <div class="space-y-4">
-                    <a href="../index.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <a href="/home" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                         <span class="mr-3">🏠</span> Home
                     </a>
                     <a href="../pages/reservationsDash.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">

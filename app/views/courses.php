@@ -47,7 +47,6 @@
                     <option>Leadership</option>
                     <option>Management</option>
                 </select>
-
                 <select class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500">
                     <option>Price Range</option>
                     <option>Under $100</option>
@@ -94,8 +93,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                     <div class="relative">
                         <img src="../../public/img/tesla-m-s.jpeg" alt="Course" class="w-full h-48 object-cover">
@@ -284,8 +281,6 @@
 
             </div>
         </div>
-
-
         <div class="mb-12">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">New Courses</h2>
@@ -325,8 +320,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="flex justify-center mt-12">
             <nav class="flex space-x-2">
                 <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Previous</button>

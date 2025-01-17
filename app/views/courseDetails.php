@@ -16,7 +16,7 @@
                     Intermediate
                 </span>
             <h1 class="text-4xl font-bold">Migrating a server from on-premise to the AWS cloud</h1>
-            <p class="text-lg text-gray-600">Master the clou web development with this comprehensive course covering frontend, backend, and deployment.</p>
+            <p class="text-lg text-gray-600">Master the cloud web development with this comprehensive course covering frontend, backend, and deployment.</p>
 
             <div class="flex items-center space-x-4">
                 <div class="flex items-center">

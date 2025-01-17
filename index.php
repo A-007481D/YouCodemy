@@ -21,6 +21,6 @@ $route->post('/signin', 'AuthController', 'login');
 $route->get('/logout', 'AuthController', 'logout');
 $route->get('/admin/dashboard', 'AdminController', 'dashboard');
 $route->get('/instructor/dashboard', 'InstructorController', 'dashboard');
+$route->post('/course/add', 'CourseController', 'addCourse');
 $route->post('/admin/manage-user', 'AdminController', 'manageUser');
-
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
