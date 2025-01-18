@@ -6,13 +6,15 @@ abstract class Cours {
     protected string $title;
     protected string $description;
     protected string $contentType;
+    protected string $category;
     protected array $tags = [];
     protected User $publisher;
-    public function __construct(int $id, string $title, string $description, string $contentType, User $publisher, array $tags = []) {
+    public function __construct(int $id, string $title, string $description, string $contentType, string $category, User $publisher, array $tags = []) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->contentType = $contentType;
+        $this->category = $category;
         $this->tags = $tags;
         $this->publisher = $publisher;
     }

@@ -152,25 +152,25 @@ $courses = $courseModel->getCoursesByInstructor($userID);
                             <div class="flex items-center">
                                 <img src="../../public/img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
                                 <div class="ml-4">
-                                    <div class="font-medium"><?= htmlspecialchars($course['title'])?></div>
+                                    <div class="font-medium"><?= htmlspecialchars($course->getTitle())?></div>
                                     <div class="text-sm text-gray-500">Updated 2 days ago</div>
                                 </div>
                             </div>
                         </td>
-                        <td><?= htmlspecialchars($course['category_name'])?></td>
+                        <td><?= htmlspecialchars($course->getCategory())?></td>
                         <td>89</td>
                         <td>4.8</td>
                         <td>
-                    <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-                        Published
-                    </span>
+            <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
+                Published
+            </span>
                         </td>
                         <td>
                             <div class="flex gap-2">
-                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" onclick="editCourse(<?= $course['courseID'] ?>)">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" onclick="editCourse(<?= $course->getId() ?>)">
                                     <i-lucide-edit size="18">edit</i-lucide-edit>
                                 </button>
-                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="deleteCourse(<?= $course['courseID'] ?>)">
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="deleteCourse(<?= $course->getId() ?>)">
                                     <i-lucide-trash-2 size="18">delete</i-lucide-trash-2>
                                 </button>
                             </div>

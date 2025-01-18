@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\models;
 
 use App\entities\Cours;
 use App\entities\TextCourse;
@@ -33,12 +33,16 @@ class CourseModel {
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getCourses($limit = 8, $offset = 0): array {
         $limit = (int)$limit;
         $offset = (int)$offset;
-        $sql = "SELECT courses.*, users.first_name, users.last_name 
+        $sql = "SELECT courses.*, users.first_name, users.last_name, categories.category_name 
             FROM courses 
             INNER JOIN users ON courses.userID = users.userID 
+            INNER JOIN categories ON courses.categoryID = categories.categoryID 
             LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -60,6 +64,7 @@ class CourseModel {
                     $row['description'],
                     $row['content_type'],
                     $row['content_path'],
+                    $row['category_name'],
                     $publisher,
                     $tags
                 );
@@ -70,6 +75,7 @@ class CourseModel {
                     $row['description'],
                     $row['content_type'],
                     $row['content_path'],
+                    $row['category_name'],
                     $publisher,
                     $tags
                 );
@@ -88,12 +94,52 @@ class CourseModel {
 
 
     public function getCoursesByInstructor(int $userID): array {
-        $query = "SELECT courses.*, categories.category_name 
+        $query = "SELECT courses.*, categories.category_name, users.first_name, users.last_name 
               FROM courses 
               JOIN categories ON courses.categoryID = categories.categoryID 
+              JOIN users ON courses.userID = users.userID 
               WHERE courses.userID = :userID";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':userID' => $userID]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $courses = [];
+        foreach ($results as $row) {
+            $publisher = new User(
+                $row['userID'],
+                $row['first_name'],
+                $row['last_name']
+            );
+            $tags = !empty($row['tags']) ? explode(',', $row['tags']) : [];
+            if ($row['content_type'] === 'video') {
+                $course = new VideoCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $tags
+                );
+            } elseif ($row['content_type'] === 'text') {
+                $course = new TextCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $tags
+                );
+            } else {
+                throw new \Exception("Unknown course type: " . $row['content_type']);
+            }
+
+            $courses[] = $course;
+        }
+
+        return $courses;
     }
 }
