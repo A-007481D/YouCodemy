@@ -57,6 +57,16 @@ class CourseController {
             }
         }
     }
+
+    public function listCourses(): void {
+        $page = $_GET['page'] ?? 1;
+        $limit = 4;
+        $offset = ($page - 1) * $limit;
+        $courses = $this->model->getCourses($limit, $offset);
+        $totalCourses = $this->model->getTotalCourses();
+        $totalPages = ceil($totalCourses / $limit);
+        require_once __DIR__ . '/../views/courses.php';
+    }
     private function sendError(string $message): void {
         if ($this->isHtmxRequest()) {
             echo "<div class='text-red-500 text-sm mt-2 text-center'>{$message}</div>";

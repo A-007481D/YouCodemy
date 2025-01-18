@@ -1,10 +1,18 @@
 <?php
-//session_start();
-//if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'instructor') {
-//    header('Location: /home');
-//    exit();
-//}
-//?>
+
+use App\models\CourseModel;
+
+if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() !== 'instructor') {
+    header('Location: /home');
+    exit();
+}
+
+require_once __DIR__ . '/../models/CourseModel.php';
+
+$courseModel = new CourseModel();
+$userID = $_SESSION['user']->getId();
+$courses = $courseModel->getCoursesByInstructor($userID);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,14 +35,14 @@
 
 <aside class="fixed inset-y-0 left-0 w-64 bg-white border-r shadow-sm">
     <div class="p-6">
-        <h2 class="text-2xl font-bold text-gray-800">TeachBoard</h2>
+        <a href="/home" class="text-2xl font-bold text-gray-800">TeachBoard</a>
     </div>
     <nav class="mt-6">
-        <a href="#" class="flex items-center px-6 py-3 text-gray-700 bg-blue-50 border-r-4 border-blue-500">
+        <a href="/" class="flex items-center px-6 py-3 text-gray-700 bg-blue-50 border-r-4 border-blue-500">
             <i-lucide-layout-dashboard class="mr-3" size="20"></i-lucide-layout-dashboard>
             Dashboard
         </a>
-        <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+        <a href="/courses" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
             <i-lucide-book-open class="mr-3 " size="20"></i-lucide-book-open>
             Courses
         </a>
@@ -66,7 +74,7 @@
     <div class="flex justify-between items-center mb-8">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-            <p class="text-gray-600">Welcome back, Professor Malik</p>
+            <p class="text-gray-600">Welcome back, Professor <span class="font-bold text-gray-700"><?= $_SESSION['user']->getFName()?></span> </p>
         </div>
         <button class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             <i-lucide-plus class="mr-2" size="20"></i-lucide-plus>
@@ -138,94 +146,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <div class="flex items-center">
-                            <img src="../../public//img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
-                            <div class="ml-4">
-                                <div class="font-medium">JavaScript Fundamentals</div>
-                                <div class="text-sm text-gray-500">Updated 2 days ago</div>
+                <?php foreach ($courses as $course): ?>
+                    <tr>
+                        <td>
+                            <div class="flex items-center">
+                                <img src="../../public/img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
+                                <div class="ml-4">
+                                    <div class="font-medium"><?= htmlspecialchars($course['title'])?></div>
+                                    <div class="text-sm text-gray-500">Updated 2 days ago</div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>Development</td>
-                    <td>89</td>
-                    <td>4.8</td>
-                    <td>
-                                <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-                                    Published
-                                </span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i-lucide-edit size="18"></i-lucide-edit>
-                            </button>
-                            <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
-                                <i-lucide-trash-2 size="18"></i-lucide-trash-2>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="flex items-center">
-                            <img src="../../public//img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
-                            <div class="ml-4">
-                                <div class="font-medium">Java Fundamentals</div>
-                                <div class="text-sm text-gray-500">Updated 2 days ago</div>
+                        </td>
+                        <td><?= htmlspecialchars($course['category_name'])?></td>
+                        <td>89</td>
+                        <td>4.8</td>
+                        <td>
+                    <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
+                        Published
+                    </span>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" onclick="editCourse(<?= $course['courseID'] ?>)">
+                                    <i-lucide-edit size="18">edit</i-lucide-edit>
+                                </button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="deleteCourse(<?= $course['courseID'] ?>)">
+                                    <i-lucide-trash-2 size="18">delete</i-lucide-trash-2>
+                                </button>
                             </div>
-                        </div>
-                    </td>
-                    <td>Development</td>
-                    <td>89</td>
-                    <td>4.8</td>
-                    <td>
-                                <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-                                    Published
-                                </span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i-lucide-edit size="18"></i-lucide-edit>
-                            </button>
-                            <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
-                                <i-lucide-trash-2 size="18"></i-lucide-trash-2>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="flex items-center">
-                            <img src="../../public//img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
-                            <div class="ml-4">
-                                <div class="font-medium">C++ Fundamentals</div>
-                                <div class="text-sm text-gray-500">Updated 2 days ago</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Development</td>
-                    <td>89</td>
-                    <td>4.8</td>
-                    <td>
-                                <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-                                    Published
-                                </span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                                <i-lucide-edit size="18"></i-lucide-edit>
-                            </button>
-                            <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
-                                <i-lucide-trash-2 size="18"></i-lucide-trash-2>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

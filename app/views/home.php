@@ -16,9 +16,9 @@
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
             <a href="#" class="text-2xl font-bold text-green-500">YouCodemy</a>
             <nav class="flex space-x-6 text-gray-700">
-                <a href="#" class="hover:text-green-500">Home</a>
+                <a href="/" class="hover:text-green-500">Home</a>
                 <a href="#" class="hover:text-green-500">About</a>
-                <a href="courses.php" class="hover:text-green-500">Courses</a>
+                <a href="/courses" class="hover:text-green-500">Courses</a>
                 <a href="#" class="hover:text-green-500">Blog</a>
                 <a href="#" class="hover:text-green-500">Contact</a>
             </nav>
@@ -81,7 +81,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                     <div class="relative">
-                        <img src="../../public/img/tesla-m-s.jpeg" alt="Course" class="w-full h-48 object-cover">
+                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
                         <div class="absolute -top-0.5 -right-0.5 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
                             Top Seller
                         </div>
@@ -95,7 +95,7 @@
                         </div>
                         <h3 class="font-bold mb-2 cursor-pointer hover:underline hover:text-blue-800">Business Strategy: 8 Best Strategies For Growth</h3>
                         <div class="flex items-center mb-2">
-                            <img src="../../public/img/tesla-m-s.jpeg" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
+                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
                             <span class="text-sm text-gray-600">Soledad O'Brien</span>
                         </div>
                         <div class="flex justify-between items-center mt-4">
@@ -111,7 +111,7 @@
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                     <div class="relative">
-                        <img src="../../public/img/tesla-m-s.jpeg" alt="Course" class="w-full h-48 object-cover">
+                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
                         <div class="absolute -top-0.5 -right-0.5 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
                             Top Seller
                         </div>
@@ -125,7 +125,7 @@
                         </div>
                         <h3 class="font-bold mb-2 cursor-pointer hover:underline hover:text-blue-800">Business Strategy: 8 Best Strategies For Growth</h3>
                         <div class="flex items-center mb-2">
-                            <img src="../../public/img/tesla-m-s.jpeg" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
+                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
                             <span class="text-sm text-gray-600">Soledad O'Brien</span>
                         </div>
                         <div class="flex justify-between items-center mt-4">
@@ -141,7 +141,7 @@
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                     <div class="relative">
-                        <img src="../../public/img/tesla-m-s.jpeg" alt="Course" class="w-full h-48 object-cover">
+                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
                         <div class="absolute -top-0.5 -right-0.5 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
                             Top Seller
                         </div>
@@ -155,7 +155,7 @@
                         </div>
                         <h3 class="font-bold mb-2 cursor-pointer hover:underline hover:text-blue-800">Business Strategy: 8 Best Strategies For Growth</h3>
                         <div class="flex items-center mb-2">
-                            <img src="../../public/img/tesla-m-s.jpeg" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
+                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
                             <span class="text-sm text-gray-600">Soledad O'Brien</span>
                         </div>
                         <div class="flex justify-between items-center mt-4">
@@ -171,7 +171,7 @@
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow opacity-50">
                     <div class="relative">
-                        <img src="../../public/img/tesla-m-s.jpeg" alt="Course" class="w-full h-48 object-cover">
+                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
                         <div class="absolute -top-0.5 -right-0.5 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
                             Top Seller
                         </div>
@@ -185,7 +185,7 @@
                         </div>
                         <h3 class="font-bold mb-2 cursor-pointer hover:underline hover:text-blue-800">Business Strategy: 8 Best Strategies For Growth</h3>
                         <div class="flex items-center mb-2">
-                            <img src="../../public/img/tesla-m-s.jpeg" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
+                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
                             <span class="text-sm text-gray-600">Soledad O'Brien</span>
                         </div>
                         <div class="flex justify-between items-center mt-4">
@@ -221,7 +221,7 @@
 
     <!-- modal -->
     <div id="modal" class="hidden flex fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-[100]">
-        <div class="max-w-md mx-auto">
+        <div id="modalContent" class="max-w-md mx-auto">
             <div class="bg-[#f0fdf4] w-[29em] rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <div class="flex">
                     <button id="loginTab" class="w-1/2 py-4 text-center font-semibold transition-all duration-300 border-b-2 border-blue-600 text-blue-600" onclick="showLogin()">
@@ -297,7 +297,6 @@
                     <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
                         Create Account
                     </h2>
-
                     <form hx-post="/signup" hx-target="#signupError" hx-swap="innerHTML" class="space-y-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -435,7 +434,7 @@
     </footer>
 
 <script src="../../public/js/auth.js">
-    
+
 </script>
 </body>
 
