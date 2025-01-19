@@ -15,32 +15,48 @@ class CourseController {
 
     public function addCourse(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             if (!isset($_SESSION['user'])) {
                 $this->sendError("User not logged in.");
                 return;
             }
 
             $user = $_SESSION['user'];
-            $userID = $user->getId(); 
+            $userID = $user->getId();
 
             $title = trim($_POST['title']);
             $description = trim($_POST['description']);
             $contentType = trim($_POST['contentType']);
-            $tags = explode(',', trim($_POST['tags'])); 
+            $tags = explode(',', trim($_POST['tags']));
             $content = trim($_POST['content']);
-            $categoryID = trim($_POST['categoryID']); 
-
-          
+            $categoryID = (int)$_POST['categoryID'];
             if (empty($title) || empty($description) || empty($contentType) || empty($content) || empty($categoryID)) {
                 $this->sendError("All fields are required.");
                 return;
             }
+            $category = $this->model->getCategoryName($categoryID);
 
             if ($contentType === 'text') {
-                $course = new TextCourse(0, $title, $description, $contentType, $content, $tags);
+                $course = new TextCourse(
+                    0,
+                    $title,
+                    $description,
+                    $contentType,
+                    $content, 
+                    $category, 
+                    $user, 
+                    $tags 
+                );
             } elseif ($contentType === 'video') {
-                $course = new VideoCourse(0, $title, $description, $contentType, $content, $tags);
+                $course = new VideoCourse(
+                    0, 
+                    $title,
+                    $description,
+                    $contentType,
+                    $content, 
+                    $category,
+                    $user,
+                    $tags 
+                );
             } else {
                 $this->sendError("Invalid content type.");
                 return;

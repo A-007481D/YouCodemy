@@ -142,4 +142,42 @@ class CourseModel {
 
         return $courses;
     }
+
+    public function archiveCourse(int $courseID): bool
+    {
+        $query = "UPDATE courses SET is_archived = 1 WHERE courseID = :courseID";
+        $stmt = $this->pdo->prepare($query);
+        return $stmt->execute([':courseID' => $courseID]);
+    }
+
+    public function updateCourse(int $courseID, array $data): bool
+    {
+        $query = "UPDATE courses SET title = :title, description = :description, categoryID = :categoryID, tags = :tags WHERE courseID = :courseID";
+        $stmt = $this->pdo->prepare($query);
+
+        $tags = implode(',', $data['tags']);
+        return $stmt->execute([
+            ':title' => $data['title'],
+            ':description' => $data['description'],
+            ':categoryID' => $data['categoryID'],
+            ':tags' => $tags,
+            ':courseID' => $courseID,
+        ]);
+    }
+
+    public function getCourseById(int $courseID): ?array
+    {
+        $query = "SELECT * FROM courses WHERE courseID = :courseID";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':courseID' => $courseID]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    public function getCategoryName(int $categoryID): string {
+        $query = "SELECT category_name FROM categories WHERE categoryID = :categoryID";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':categoryID' => $categoryID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['category_name'] ?? 'Uncategorized';
+    }
 }

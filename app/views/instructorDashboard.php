@@ -1,18 +1,3 @@
-<?php
-
-use App\models\CourseModel;
-
-if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() !== 'instructor') {
-    header('Location: /home');
-    exit();
-}
-
-require_once __DIR__ . '/../models/CourseModel.php';
-
-$courseModel = new CourseModel();
-$userID = $_SESSION['user']->getId();
-$courses = $courseModel->getCoursesByInstructor($userID);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -245,6 +230,47 @@ $courses = $courseModel->getCoursesByInstructor($userID);
         </div>
     </div>
 </div>
+
+<div id="editCourseModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg w-11/12 md:w-1/2">
+        <div class="flex justify-between items-center border-b p-4">
+            <h2 class="text-xl font-bold">Edit Course</h2>
+            <button onclick="document.getElementById('editCourseModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-800">
+                <i-lucide-x size="24"></i-lucide-x>
+            </button>
+        </div>
+        <div class="p-6">
+            <form onsubmit="saveCourseChanges(<?= $course->getId() ?>); return false;">
+                <div class="mb-4">
+                    <label for="editCourseTitle" class="block text-sm font-medium text-gray-700">Course Title</label>
+                    <input type="text" id="editCourseTitle" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="editCourseDescription" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="editCourseDescription" rows="2" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="editCourseCategory" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="editCourseCategory" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        <option value="1">Development</option>
+                        <option value="2">Design</option>
+                        <option value="3">Marketing</option>
+                        <option value="4">Business</option>
+                        <option value="5">Photography</option>
+                        <option value="6">Music</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="editCourseTags" class="block text-sm font-medium text-gray-700">Tags</label>
+                    <input type="text" id="editCourseTags" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Add tags separated by commas">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
          document.body.addEventListener('courseAdded', function (event) {
@@ -257,7 +283,9 @@ $courses = $courseModel->getCoursesByInstructor($userID);
         });
     });
 </script>
-<script src="../../public/js/instructor.js"></script>
+<script src="../../public/js/instructor.js">
+
+</script>
 
 </body>
 </html>

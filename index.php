@@ -8,8 +8,6 @@ error_reporting(E_ALL);
 
 use src\http\Route;
 
-//require_once __DIR__ . '/vendor/autoload.php';
-
 require_once './utils.php';
 
 $route = new Route();
@@ -22,6 +20,10 @@ $route->get('/logout', 'AuthController', 'logout');
 $route->get('/admin/dashboard', 'AdminController', 'dashboard');
 $route->get('/instructor/dashboard', 'InstructorController', 'dashboard');
 $route->post('/course/add', 'CourseController', 'addCourse');
+$route->post('/instructor/course/archive', 'InstructorController', 'archiveCourse');
+$route->post('/instructor/course/edit', 'InstructorController', 'editCourse');
+$route->get('/instructor/course/details/{id}', 'InstructorController', 'getCourseDetails');
 $route->post('/admin/manage-user', 'AdminController', 'manageUser');
 $route->get('/courses', 'CourseController', 'listCourses');
+
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
