@@ -16,7 +16,7 @@
     <div>
         <h1 class="text-6xl font-bold text-red-500">404</h1>
         <p class="text-xl text-gray-700 mt-4">Oops! The page you're looking for doesn't exist.</p>
-        <a href="../views/home.php" class="text-blue-500 hover:underline mt-6 block text-lg">Go back to the homepage</a>
+        <a href="/" class="text-blue-500 hover:underline mt-6 block text-lg">Go back to the homepage</a>
     </div>
 </body>
 </html>

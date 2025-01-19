@@ -174,7 +174,7 @@ class CourseController
             return;
         }
         $isEnrolled = false;
-        if (isset($_SESSION['user']) && $_SESSION['user'] instanceof Student) {
+        if (isset($_SESSION['user']) && $_SESSION['user']->getRole() === 'student') {
             $userID = $_SESSION['user']->getId();
             $isEnrolled = $this->model->isStudentEnrolled($courseID, $userID);
         }
@@ -211,34 +211,42 @@ class CourseController
 
     public function enroll(int $courseID): void
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user'] instanceof Student) {
-            $this->sendError("You must be logged in as a student to enroll in a course.");
-            return;
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() !== 'student') {
+            error_log("User not logged in or not a student.");
+            error_log("Session data: " . print_r($_SESSION, true));
+            $_SESSION['enrollment_error'] = "You must be logged in as a student to enroll in a course.";
+            header("Location: /course/$courseID");
+            exit;
         }
 
         $userID = $_SESSION['user']->getId();
+        error_log("User ID from session: $userID");
 
         if ($this->model->enrollStudent($courseID, $userID)) {
-            if ($this->isHtmxRequest()) {
-                echo "<div class='text-green-500 text-sm mt-2 text-center'>Enrolled successfully!</div>";
-            } else {
-                $_SESSION['enrollment_success'] = "Enrolled successfully!";
-                header("Location: /course/$courseID");
-            }
+            $_SESSION['enrollment_success'] = "Enrolled successfully!";
+            header("Location: /course/$courseID");
+            exit;
         } else {
-            $this->sendError("Failed to enroll in the course.");
+            $_SESSION['enrollment_error'] = "Failed to enroll in the course. You may already be enrolled.";
+            header("Location: /course/$courseID");
+            exit;
         }
     }
-
     public function myCourses(): void
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user'] instanceof Student) {
+        error_log("Entering myCourses method.");
+
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() !== 'student') {
+            error_log("User not logged in or not a student.");
+            error_log("Session data: " . print_r($_SESSION, true));
             $this->sendError("You must be logged in as a student to view your courses.");
             return;
         }
 
         $userID = $_SESSION['user']->getId();
+        error_log("User ID from session: $userID");
         $courses = $this->model->getEnrolledCourses($userID);
+        error_log("Courses retrieved: " . print_r($courses, true));
 
         require_once __DIR__ . '/../views/myCourses.php';
     }

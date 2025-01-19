@@ -76,8 +76,8 @@
             </div>
             <div>
                 <?php if ($isEnrolled): ?>
-                    <a href="/my-courses" class="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                        Open Course
+                    <a href="/my-courses" >
+                        <button class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">Open Course</button>
                     </a>
                 <?php else: ?>
                     <form action="/enroll/<?= $course->getId() ?>" method="POST">
