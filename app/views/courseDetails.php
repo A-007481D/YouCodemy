@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Details</title>
+    <title><?= htmlspecialchars($course->getTitle())?></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50">
 <div class="max-w-6xl mx-auto p-6 space-y-8">
-
     <div class="grid md:grid-cols-2 gap-8">
         <div class="space-y-4">
-                <span class="inline-flex items-center rounded-full px-3 py-1 text-sm bg-blue-100 text-blue-800">
-                    Intermediate
-                </span>
-            <h1 class="text-4xl font-bold">Migrating a server from on-premise to the AWS cloud</h1>
-            <p class="text-lg text-gray-600">Master the cloud web development with this comprehensive course covering frontend, backend, and deployment.</p>
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm bg-blue-100 text-blue-800">
+                <?= htmlspecialchars($course->getCategory())?>
+            </span>
+            <h1 class="text-4xl font-bold"><?= htmlspecialchars($course->getTitle())?></h1>
+            <p class="text-lg text-gray-600"><?= htmlspecialchars($course->getDescription())?></p>
 
             <div class="flex items-center space-x-4">
                 <div class="flex items-center">
@@ -33,19 +32,24 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <img src="../../public/img/moi.png" alt="Sarah Johnson" class="rounded-full w-12 h-12">
+                <img src="../../public/img/moi.png" alt="Instructor" class="rounded-full w-12 h-12">
                 <div>
-                    <p class="font-medium">Abdelmalek Labid</p>
+                    <p class="font-medium"><?= htmlspecialchars($course->getPublisher()->getLName())?></p>
                     <p class="text-sm text-gray-600">Senior AWS Solutions Architect</p>
                 </div>
             </div>
         </div>
 
         <div>
-            <img src="/../../public/img/aws-course.jpg" alt="Course Preview" class="rounded-lg w-full object-cover">
+            <?php if ($course->getContentType() === 'video'): ?>
+                <video controls class="rounded-lg w-full">
+                    <source src="<?= htmlspecialchars($course->getContent()) ?>" type="video/mp4">
+                </video>
+            <?php else: ?>
+                <img src="<?= htmlspecialchars($course->getContent()) ?>" alt="Course Preview" class="rounded-lg w-full object-cover">
+            <?php endif; ?>
         </div>
     </div>
-
 
     <div class="bg-white rounded-lg shadow">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
@@ -71,34 +75,31 @@
                 </div>
             </div>
             <div>
-                <button class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                    Enroll Now - $99.99
-                </button>
+                <?php if ($isEnrolled): ?>
+                    <a href="/my-courses" class="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                        Open Course
+                    </a>
+                <?php else: ?>
+                    <form action="/enroll/<?= $course->getId() ?>" method="POST">
+                        <button type="submit" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                            Enroll Now - $99.99
+                        </button>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-
 
     <div class="bg-white rounded-lg shadow">
         <div class="p-6">
             <h2 class="text-2xl font-bold mb-6">What You'll Learn</h2>
             <div class="grid md:grid-cols-2 gap-4">
-                <div class="flex items-start space-x-2">
-                    <i data-feather="check" class="w-5 h-5 text-green-500 mt-1"></i>
-                    <span>Gain Hands on Experience on Server Migration from ON-Prem to Cloud.</span>
-                </div>
-                <div class="flex items-start space-x-2">
-                    <i data-feather="check" class="w-5 h-5 text-green-500 mt-1"></i>
-                    <span>Master all the differences of Databases on AWS</span>
-                </div>
-                <div class="flex items-start space-x-2">
-                    <i data-feather="check" class="w-5 h-5 text-green-500 mt-1"></i>
-                    <span>Understand Different Migration Strategies.(6R's of Migration)</span>
-                </div>
-                <div class="flex items-start space-x-2">
-                    <i data-feather="check" class="w-5 h-5 text-green-500 mt-1"></i>
-                    <span>Understand the Well Architected Framework, Disaster Recovery</span>
-                </div>
+                <?php foreach ($course->getTags() as $tag): ?>
+                    <div class="flex items-start space-x-2">
+                        <i data-feather="check" class="w-5 h-5 text-green-500 mt-1"></i>
+                        <span><?= htmlspecialchars($tag) ?></span>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -129,7 +130,7 @@
                 </div>
                 <div class="border rounded-lg p-4">
                     <div class="flex justify-between items-center mb-2 cursor-pointer" onclick="toggleSection(2)">
-                        <h3 class="font-medium">Frontend Development</h3>
+                        <h3 class="font-medium">Into the Cloud</h3>
                         <div class="flex items-center space-x-2">
                             <span class="text-sm text-gray-600">10 hours</span>
                             <i data-feather="chevron-down" class="w-4 h-4 transform transition-transform" id="icon-2"></i>
@@ -138,11 +139,11 @@
                     <div class="space-y-2 hidden" id="section-2">
                         <div class="flex items-center space-x-2 text-gray-600">
                             <i data-feather="play" class="w-4 h-4"></i>
-                            <span>HTML5 & CSS3</span>
+                            <span>AWS Fundamentals</span>
                         </div>
                         <div class="flex items-center space-x-2 text-gray-600">
                             <i data-feather="play" class="w-4 h-4"></i>
-                            <span>JavaScript Fundamentals</span>
+                            <span>Core AWS services</span>
                         </div>
                     </div>
                 </div>

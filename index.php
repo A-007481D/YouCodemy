@@ -26,5 +26,8 @@ $route->get('/instructor/course/details/{id}', 'CourseController', 'getCourseDet
 $route->post('/instructor/course/status', 'CourseController', 'toggleCourseStatus');
 $route->post('/admin/manage-user', 'AdminController', 'manageUser');
 $route->get('/courses', 'CourseController', 'listCourses');
+$route->get('/course/{id}', 'CourseController', 'showCourseDetails');
+$route->post('/enroll/{id}', 'CourseController','enroll');
+$route->get('/my-courses', 'CourseController','myCourses');
 
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
