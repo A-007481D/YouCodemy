@@ -66,6 +66,7 @@ class CourseModel {
                     $row['content_path'],
                     $row['category_name'],
                     $publisher,
+                    $row['status'],
                     $tags
                 );
             } elseif ($row['content_type'] === 'text') {
@@ -77,6 +78,7 @@ class CourseModel {
                     $row['content_path'],
                     $row['category_name'],
                     $publisher,
+                    $row['status'],
                     $tags
                 );
             } else {
@@ -98,7 +100,7 @@ class CourseModel {
               FROM courses 
               JOIN categories ON courses.categoryID = categories.categoryID 
               JOIN users ON courses.userID = users.userID 
-              WHERE courses.userID = :userID";
+              WHERE courses.userID = :userID AND courses.status = 'published'";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':userID' => $userID]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -120,6 +122,7 @@ class CourseModel {
                     $row['content_path'],
                     $row['category_name'],
                     $publisher,
+                    $row['status'],
                     $tags
                 );
             } elseif ($row['content_type'] === 'text') {
@@ -131,6 +134,7 @@ class CourseModel {
                     $row['content_path'],
                     $row['category_name'],
                     $publisher,
+                    $row['status'],
                     $tags
                 );
             } else {
@@ -142,17 +146,20 @@ class CourseModel {
 
         return $courses;
     }
-
-    public function archiveCourse(int $courseID): bool
+    public function archiveCourse(int $courseID, int $userID): bool
     {
-        $query = "UPDATE courses SET is_archived = 1 WHERE courseID = :courseID";
+        $query = "UPDATE courses SET status = 'archived' WHERE courseID = :courseID AND userID = :userID";
         $stmt = $this->pdo->prepare($query);
-        return $stmt->execute([':courseID' => $courseID]);
+        return $stmt->execute([
+            ':courseID' => $courseID,
+            ':userID' => $userID,
+        ]);
     }
 
-    public function updateCourse(int $courseID, array $data): bool
+    public function updateCourse(int $courseID, int $userID, array $data): bool
     {
-        $query = "UPDATE courses SET title = :title, description = :description, categoryID = :categoryID, tags = :tags WHERE courseID = :courseID";
+        $query = "UPDATE courses SET title = :title, description = :description, categoryID = :categoryID, tags = :tags 
+              WHERE courseID = :courseID AND userID = :userID";
         $stmt = $this->pdo->prepare($query);
 
         $tags = implode(',', $data['tags']);
@@ -162,9 +169,9 @@ class CourseModel {
             ':categoryID' => $data['categoryID'],
             ':tags' => $tags,
             ':courseID' => $courseID,
+            ':userID' => $userID,
         ]);
     }
-
     public function getCourseById(int $courseID): ?array
     {
         $query = "SELECT * FROM courses WHERE courseID = :courseID";

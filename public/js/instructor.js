@@ -70,7 +70,6 @@ function archiveCourse(courseID) {
     }
 }
 
-
 function editCourse(courseID) {
     fetch(`/instructor/course/details/${courseID}`)
         .then(response => response.json())
@@ -82,7 +81,6 @@ function editCourse(courseID) {
             document.getElementById('editCourseModal').classList.remove('hidden');
         });
 }
-
 
 function saveCourseChanges(courseID) {
     const data = {

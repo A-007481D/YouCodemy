@@ -146,8 +146,8 @@
                         <td>89</td>
                         <td>4.8</td>
                         <td>
-            <span class="px-3 py-1 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-                Published
+            <span class="px-3 py-1 text-sm font-medium <?= $course->getStatus() === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' ?> rounded-full">
+                <?= ucfirst($course->getStatus()) ?>
             </span>
                         </td>
                         <td>
@@ -155,7 +155,7 @@
                                 <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" onclick="editCourse(<?= $course->getId() ?>)">
                                     <i-lucide-edit size="18">edit</i-lucide-edit>
                                 </button>
-                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="deleteCourse(<?= $course->getId() ?>)">
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="archiveCourse(<?= $course->getId() ?>)">
                                     <i-lucide-trash-2 size="18">delete</i-lucide-trash-2>
                                 </button>
                             </div>
