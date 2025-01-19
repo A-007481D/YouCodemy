@@ -100,7 +100,7 @@ class CourseModel {
               FROM courses 
               JOIN categories ON courses.categoryID = categories.categoryID 
               JOIN users ON courses.userID = users.userID 
-              WHERE courses.userID = :userID AND courses.status = 'published'";
+              WHERE courses.userID = :userID ";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':userID' => $userID]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -186,5 +186,16 @@ class CourseModel {
         $stmt->execute([':categoryID' => $categoryID]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['category_name'] ?? 'Uncategorized';
+    }
+
+    public function updateCourseStatus(int $courseID, int $userID, string $status): bool
+    {
+        $query = "UPDATE courses SET status = :status WHERE courseID = :courseID AND userID = :userID";
+        $stmt = $this->pdo->prepare($query);
+        return $stmt->execute([
+            ':status' => $status,
+            ':courseID' => $courseID,
+            ':userID' => $userID,
+        ]);
     }
 }

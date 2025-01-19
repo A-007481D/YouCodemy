@@ -1,13 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
+    initializeDataTable();
+    setupEventListeners();
+});
 
-    document.body.addEventListener('courseAdded', function (event) {
-        alert('Course added successfully!');
-        window.location.reload(); 
-    });
-
-    document.body.addEventListener('courseAddFailed', function (event) {
-        alert('Failed to add course.');
-    });
+function initializeDataTable() {
     $('#coursesTable').DataTable({
         responsive: true,
         pageLength: 10,
@@ -28,15 +24,31 @@ document.addEventListener('DOMContentLoaded', function () {
             $('.paginate_button.current').addClass('bg-blue-50 text-blue-600 border-blue-200');
         }
     });
+}
+
+// Setup Event Listeners
+function setupEventListeners() {
+    // Course Added/Failed Events
+    document.body.addEventListener('courseAdded', function (event) {
+        alert('Course added successfully!');
+        window.location.reload();
+    });
+
+    document.body.addEventListener('courseAddFailed', function (event) {
+        alert('Failed to add course.');
+    });
+
+    // New Course Button
     $('button:contains("New Course")').on('click', function () {
         $('#courseModal').removeClass('hidden');
     });
 
-
+    // Close Modal Button
     $('#closeModal').on('click', function () {
         $('#courseModal').addClass('hidden');
     });
 
+    // Content Type Toggle
     $('input[name="contentType"]').on('change', function () {
         if ($(this).val() === 'text') {
             $('#textContent').removeClass('hidden');
@@ -46,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#textContent').addClass('hidden');
         }
     });
-});
+}
 
-
+// Archive Course
 function archiveCourse(courseID) {
     if (confirm('Are you sure you want to archive this course?')) {
         fetch('/instructor/course/archive', {
@@ -56,9 +68,14 @@ function archiveCourse(courseID) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ courseID }),
+            body: JSON.stringify({ courseID: courseID }),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert('Course archived successfully!');
@@ -66,22 +83,41 @@ function archiveCourse(courseID) {
                 } else {
                     alert('Failed to archive course: ' + data.message);
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while archiving the course.');
             });
     }
 }
 
+// Edit Course
 function editCourse(courseID) {
     fetch(`/instructor/course/details/${courseID}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            if (data.success === false) {
+                alert(data.message);
+                return;
+            }
             document.getElementById('editCourseTitle').value = data.title;
             document.getElementById('editCourseDescription').value = data.description;
             document.getElementById('editCourseCategory').value = data.categoryID;
             document.getElementById('editCourseTags').value = data.tags.join(',');
             document.getElementById('editCourseModal').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while fetching course details.');
         });
 }
 
+// Save Course Changes
 function saveCourseChanges(courseID) {
     const data = {
         courseID,
@@ -98,7 +134,12 @@ function saveCourseChanges(courseID) {
         },
         body: JSON.stringify(data),
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 alert('Course updated successfully!');
@@ -106,5 +147,9 @@ function saveCourseChanges(courseID) {
             } else {
                 alert('Failed to update course: ' + data.message);
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the course.');
         });
 }

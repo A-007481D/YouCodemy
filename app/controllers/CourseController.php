@@ -38,12 +38,11 @@ class CourseController
             }
             $category = $this->model->getCategoryName($categoryID);
 
-            // Default status for new courses
             $status = 'published';
 
             if ($contentType === 'text') {
                 $course = new TextCourse(
-                    0, // ID (0 for new course)
+                    0, 
                     $title,
                     $description,
                     $contentType,
@@ -55,7 +54,7 @@ class CourseController
                 );
             } elseif ($contentType === 'video') {
                 $course = new VideoCourse(
-                    0, // ID (0 for new course)
+                    0,
                     $title,
                     $description,
                     $contentType,
@@ -97,27 +96,51 @@ class CourseController
     public function archiveCourse(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_SESSION['user'])) {
-                $this->sendError("User not logged in.");
+            // Get the raw POST data
+            $rawData = file_get_contents('php://input');
+
+            // Debug: Log the raw POST data
+            error_log('Raw POST data: ' . $rawData);
+
+            // Decode the JSON data
+            $data = json_decode($rawData, true);
+
+            // Debug: Log the decoded data
+            error_log('Decoded data: ' . print_r($data, true));
+
+            // Check if courseID is present
+            if (!isset($data['courseID'])) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['success' => false, 'message' => 'Course ID is missing.']);
                 return;
             }
 
-            $courseID = (int)$_POST['courseID'];
+            // Check if user is logged in
+            if (!isset($_SESSION['user'])) {
+                http_response_code(401); // Unauthorized
+                echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+                return;
+            }
+
+            $courseID = (int)$data['courseID'];
             $userID = $_SESSION['user']->getId();
+
+            // Debug: Log the courseID and userID
+            error_log("Archiving course ID: $courseID, User ID: $userID");
 
             if ($this->model->archiveCourse($courseID, $userID)) {
                 echo json_encode(['success' => true]);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to archive course']);
+                http_response_code(400); // Bad Request
+                echo json_encode(['success' => false, 'message' => 'Failed to archive course.']);
             }
         }
     }
-
     public function editCourse(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_SESSION['user'])) {
-                $this->sendError("User not logged in.");
+                echo json_encode(['success' => false, 'message' => 'User not logged in.']);
                 return;
             }
 
@@ -134,7 +157,52 @@ class CourseController
             if ($this->model->updateCourse($courseID, $userID, $data)) {
                 echo json_encode(['success' => true]);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to update course']);
+                echo json_encode(['success' => false, 'message' => 'Failed to update course.']);
+            }
+        }
+    }
+
+    public function getCourseDetails(int $courseID): void
+    {
+        $course = $this->model->getCourseById($courseID);
+        if ($course) {
+            echo json_encode($course);
+        } else {
+            http_response_code(404); // Not Found
+            echo json_encode(['success' => false, 'message' => 'Course not found.']);
+        }
+    }
+
+    public function toggleCourseStatus(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Check if courseID and action are present
+            if (!isset($_POST['courseID']) || !isset($_POST['action'])) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+                return;
+            }
+
+            // Check if user is logged in
+            if (!isset($_SESSION['user'])) {
+                http_response_code(401); // Unauthorized
+                echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+                return;
+            }
+
+            $courseID = (int)$_POST['courseID'];
+            $action = $_POST['action'];
+            $userID = $_SESSION['user']->getId();
+
+            // Determine the new status based on the action
+            $newStatus = ($action === 'publish') ? 'published' : 'archived';
+
+            // Update the course status
+            if ($this->model->updateCourseStatus($courseID, $userID, $newStatus)) {
+                echo json_encode(['success' => true]);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(['success' => false, 'message' => 'Failed to update course status.']);
             }
         }
     }

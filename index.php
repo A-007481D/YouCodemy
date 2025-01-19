@@ -23,6 +23,7 @@ $route->post('/course/add', 'CourseController', 'addCourse');
 $route->post('/instructor/course/archive', 'CourseController', 'archiveCourse');
 $route->post('/instructor/course/edit', 'CourseController', 'editCourse');
 $route->get('/instructor/course/details/{id}', 'CourseController', 'getCourseDetails');
+$route->post('/instructor/course/status', 'CourseController', 'toggleCourseStatus');
 $route->post('/admin/manage-user', 'AdminController', 'manageUser');
 $route->get('/courses', 'CourseController', 'listCourses');
 

@@ -133,7 +133,7 @@
                 <tbody>
                 <?php foreach ($courses as $course): ?>
                     <tr>
-                        <td>
+                        <td class="py-2 px-4 border-b">
                             <div class="flex items-center">
                                 <img src="../../public/img/bottom_hero_img.png" alt="Course" class="w-10 h-10 rounded-lg object-cover">
                                 <div class="ml-4">
@@ -142,23 +142,24 @@
                                 </div>
                             </div>
                         </td>
-                        <td><?= htmlspecialchars($course->getCategory())?></td>
-                        <td>89</td>
-                        <td>4.8</td>
-                        <td>
-            <span class="px-3 py-1 text-sm font-medium <?= $course->getStatus() === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' ?> rounded-full">
+                        <td class="py-2 px-4 border-b"><?= htmlspecialchars($course->getCategory())?></td>
+                        <td class="py-2 px-4 border-b">89</td>
+                        <td class="py-2 px-4 border-b">4.8</td>
+                        <td class="py-2 px-4 border-b">
+            <span class="status px-3 py-1 text-sm font-medium <?= $course->getStatus() === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' ?> rounded-full">
                 <?= ucfirst($course->getStatus()) ?>
             </span>
                         </td>
-                        <td>
-                            <div class="flex gap-2">
-                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" onclick="editCourse(<?= $course->getId() ?>)">
-                                    <i-lucide-edit size="18">edit</i-lucide-edit>
-                                </button>
-                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg" onclick="archiveCourse(<?= $course->getId() ?>)">
-                                    <i-lucide-trash-2 size="18">delete</i-lucide-trash-2>
-                                </button>
-                            </div>
+                        <td class="py-2 px-4 border-b">
+                            <form action="/instructor/course/status" method="POST" class="inline">
+                                <input type="hidden" name="courseID" value="<?= htmlspecialchars($course->getId()) ?>">
+                                <?php if ($course->getStatus() === 'published'): ?>
+                                    <button type="submit" name="action" value="archive" class="bg-yellow-500 text-white px-4 py-1 rounded"  onclick="return confirm('Are you sure you want to archive this course?')">Archive</button>
+                                <?php else: ?>
+                                    <button type="submit" name="action" value="publish" class="bg-green-500 text-white px-4 py-1 rounded">Publish</button>
+                                <?php endif; ?>
+                                <button type="submit" name="action" value="edit" class="bg-blue-500 text-white px-4 py-1 rounded">Edit</button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
