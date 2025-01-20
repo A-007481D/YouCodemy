@@ -262,7 +262,7 @@ class CourseController
     {
         $query = $_GET['query'] ?? '';
         $courses = $this->model->searchCourses($query);
-        require_once __DIR__ . '/../views/courses.php';
+        require_once __DIR__ . '/../views/partials/course-results.php';
     }
 
     private function sendError(string $message): void
