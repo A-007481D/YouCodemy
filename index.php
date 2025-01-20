@@ -29,5 +29,6 @@ $route->get('/courses', 'CourseController', 'listCourses');
 $route->get('/course/{id}', 'CourseController', 'showCourseDetails');
 $route->post('/enroll/{id}', 'CourseController','enroll');
 $route->get('/my-courses', 'CourseController','myCourses');
+$route->get('/search-courses', 'CourseController','searchCourses');
 
 $route->resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
