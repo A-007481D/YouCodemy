@@ -25,8 +25,8 @@
             <div class="flex space-x-4">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="flex items-center gap-2 font-medium">
-                        <span class="text-gray-700">Welcome, <?= htmlspecialchars($_SESSION['user']->getFName());?>!</span>
-                        <a href="/logout" class="text-red-500 hover:underline">Logout</a>
+                        <a href="/my-courses"><span class="text-gray-700">Welcome, <?= htmlspecialchars($_SESSION['user']->getFName());?>!</span></a>
+                        <a href="/logout" class='bg-transparent text-red-500 hover:text-white border-2 border-red-500 px-4 py-1 rounded-full hover:bg-red-700 transition-all transform hover:scale-105 duration-200'>Logout</a>
                     </div>
                 <?php else: ?>
                     <div class="flex items-center gap-2 font-medium cursor-pointer hover:underline hover:text-green-500" onclick="toggleModal('login')">

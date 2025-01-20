@@ -255,15 +255,61 @@ class CourseModel {
         return $stmt->execute(['courseID' => $courseID, 'userID' => $userID]);
     }
 
-    public function getEnrolledCourses(int $userID): array
+    public function getEnrolledCourses(int $userID, int $limit = 6, int $offset = 0): array
     {
-        $query = "SELECT c.* FROM courses c
-                  JOIN enrollments e ON c.courseID = e.courseID
-                  WHERE e.userID = :userID";
+        $query = "SELECT c.*, users.first_name, users.last_name, categories.category_name 
+              FROM courses c
+              JOIN enrollments e ON c.courseID = e.courseID
+              JOIN users ON c.userID = users.userID
+              JOIN categories ON c.categoryID = categories.categoryID
+              WHERE e.userID = :userID
+              LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['userID' => $userID]);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $courses = [];
+        foreach ($results as $row) {
+            $publisher = new User(
+                $row['userID'],
+                $row['first_name'],
+                $row['last_name']
+            );
+            $tags = !empty($row['tags']) ? explode(',', $row['tags']) : [];
+            if ($row['content_type'] === 'video') {
+                $course = new VideoCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $row['status'],
+                    $tags
+                );
+            } elseif ($row['content_type'] === 'text') {
+                $course = new TextCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $row['status'],
+                    $tags
+                );
+            } else {
+                throw new \Exception("Unknown course type: " . $row['content_type']);
+            }
+            $courses[] = $course;
+        }
+
+        return $courses;
     }
 
     public function isStudentEnrolled(int $courseID, int $userID): bool
@@ -273,6 +319,16 @@ class CourseModel {
         $stmt->execute(['courseID' => $courseID, 'userID' => $userID]);
 
         return $stmt->rowCount() > 0;
+    }
+
+    public function getTotalEnrolledCourses(int $userID): int
+    {
+        $query = "SELECT COUNT(*) 
+              FROM enrollments 
+              WHERE userID = :userID";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['userID' => $userID]);
+        return $stmt->fetchColumn();
     }
 
 

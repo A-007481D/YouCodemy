@@ -245,8 +245,15 @@ class CourseController
 
         $userID = $_SESSION['user']->getId();
         error_log("User ID from session: $userID");
-        $courses = $this->model->getEnrolledCourses($userID);
+        $page = $_GET['page'] ?? 1; 
+        $limit = 3;
+        $offset = ($page - 1) * $limit;
+
+        $courses = $this->model->getEnrolledCourses($userID, $limit, $offset);
+        $totalCourses = $this->model->getTotalEnrolledCourses($userID);
+        $totalPages = ceil($totalCourses / $limit);
         error_log("Courses retrieved: " . print_r($courses, true));
+        error_log("Total courses: $totalCourses, Total pages: $totalPages, Current page: $page");
 
         require_once __DIR__ . '/../views/myCourses.php';
     }
