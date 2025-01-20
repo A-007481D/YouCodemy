@@ -331,5 +331,60 @@ class CourseModel {
         return $stmt->fetchColumn();
     }
 
+    public function searchCourses(string $query): array
+    {
+        $query = "%$query%";
+        $sql = "SELECT c.*, users.first_name, users.last_name, categories.category_name 
+            FROM courses c
+            JOIN users ON c.userID = users.userID
+            JOIN categories ON c.categoryID = categories.categoryID
+            WHERE c.title LIKE :query 
+               OR c.description LIKE :query 
+               OR users.first_name LIKE :query 
+               OR users.last_name LIKE :query 
+               OR categories.category_name LIKE :query";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['query' => $query]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $courses = [];
+        foreach ($results as $row) {
+            $publisher = new User(
+                $row['userID'],
+                $row['first_name'],
+                $row['last_name']
+            );
+            $tags = !empty($row['tags']) ? explode(',', $row['tags']) : [];
+            if ($row['content_type'] === 'video') {
+                $course = new VideoCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $row['status'],
+                    $tags
+                );
+            } elseif ($row['content_type'] === 'text') {
+                $course = new TextCourse(
+                    $row['courseID'],
+                    $row['title'],
+                    $row['description'],
+                    $row['content_type'],
+                    $row['content_path'],
+                    $row['category_name'],
+                    $publisher,
+                    $row['status'],
+                    $tags
+                );
+            } else {
+                throw new \Exception("Unknown course type: " . $row['content_type']);
+            }
+            $courses[] = $course;
+        }
+
+        return $courses;
+    }
 }
