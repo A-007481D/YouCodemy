@@ -75,87 +75,27 @@
                     <?php require_once __DIR__ . '/partials/course-results.php'; ?>
                 </div>
             </div>
-        </div>
-        <!-- Top Sellers -->
-        <div class="mb-12 mt-10">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Top Sellers</h2>
-                <a href="#" class="text-yellow-600 hover:text-yellow-700">View All</a>
-            </div>
-            <!-- cccc -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
-                        <div class="absolute -top-0.5 -right-0.5 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
-                            Top Seller
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-400">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <span class="text-gray-500 text-sm ml-2">120 reviews</span>
-                        </div>
-                        <h3 class="font-bold mb-2">Business Strategy: 8 Best Strategies For Growth</h3>
-                        <div class="flex items-center mb-2">
-                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
-                            <span class="text-sm text-gray-600">Soledad O'Brien</span>
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="text-sm text-gray-500">
-                                <span class="font-bold">64</span> students
-                            </div>
-                            <div class="text-lg font-bold text-yellow-600">
-                                $380
-                            </div>
-                        </div>
-                    </div>
+
+            <!-- Top Sellers -->
+            <div class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Top Sellers</h2>
+                    <a href="#" class="text-yellow-600 hover:text-yellow-700">View All</a>
                 </div>
-
-            </div>
-        </div>
-
-        <!-- New Courses -->
-        <div class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">New Courses</h2>
-                <a href="#" class="text-yellow-600 hover:text-yellow-700">View All</a>
-            </div>
-
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="../../public/img/placeholder-course.webp" alt="Course" class="w-full h-48 object-cover">
-                        <div class="absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-sm">
-                            Featured
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-400">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <span class="text-gray-500 text-sm ml-2">120 reviews</span>
-                        </div>
-                        <h3 class="font-bold mb-2">Business Strategy: 8 Best Strategies For Growth</h3>
-                        <div class="flex items-center mb-2">
-                            <img src="../../public/img/placeholder-course.webp" alt="Instructor" class="w-6 h-6 rounded-full mr-2">
-                            <span class="text-sm text-gray-600">Soledad O'Brien</span>
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="text-sm text-gray-500">
-                                <span class="font-bold">64</span> students
-                            </div>
-                            <div class="text-lg font-bold text-yellow-600">
-                                $380
-                            </div>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <?php require_once __DIR__ . '/partials/top-sellers.php'; ?>
                 </div>
+            </div>
 
+            <!-- New Courses -->
+            <div class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">New Courses</h2>
+                    <a href="#" class="text-yellow-600 hover:text-yellow-700">View All</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <?php require_once __DIR__ . '/partials/new-courses.php'; ?>
+                </div>
             </div>
         </div>
 

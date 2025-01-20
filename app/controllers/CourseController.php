@@ -261,7 +261,15 @@ class CourseController
     public function searchCourses(): void
     {
         $query = $_GET['query'] ?? '';
-        $courses = $this->model->searchCourses($query);
+        $page = $_GET['page'] ?? 1;
+        $limit = 4;
+        $offset = ($page - 1) * $limit;
+        if (empty($query)) {
+            $courses = $this->model->getCourses($limit, $offset);
+        } else {
+            $courses = $this->model->searchCourses($query);
+        }
+        
         require_once __DIR__ . '/../views/partials/course-results.php';
     }
 
