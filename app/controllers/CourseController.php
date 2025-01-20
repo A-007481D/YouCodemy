@@ -258,6 +258,13 @@ class CourseController
         require_once __DIR__ . '/../views/myCourses.php';
     }
 
+    public function searchCourses(): void
+    {
+        $query = $_GET['query'] ?? '';
+        $courses = $this->model->searchCourses($query);
+        require_once __DIR__ . '/../views/courses.php';
+    }
+
     private function sendError(string $message): void
     {
         if ($this->isHtmxRequest()) {
