@@ -33,6 +33,23 @@ class AuthController
             return;
         }
 
+        $existingUser = $this->userModel->findByEmail($email);
+        if ($existingUser) {
+            $this->sendError("Email already exists");
+            return;
+        }
+
+        $existingFName = $this->userModel->findByFirstName($firstName);
+        if ($existingFName) {
+            $this->sendError("First name already exists");
+            return;
+        }
+
+        $existingLName = $this->userModel->findByLastName($lastName);
+        if ($existingLName) {
+            $this->sendError("Last name already exists");
+        }
+
         $user = null;
         if ($role === 'student') {
             $user = new Student($firstName, $lastName, $email, $password);
@@ -50,7 +67,7 @@ class AuthController
         $registered = $this->userModel->createUser($user);
 
         if ($registered) {
-            $successMessage = ($role === 'instructor') 
+            $successMessage = ($role === 'instructor')
                 ? "Registered successfully, Please wait for account approval!"
                 : "Registered successfully!";
 

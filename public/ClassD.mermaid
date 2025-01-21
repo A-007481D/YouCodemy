@@ -8,33 +8,65 @@ classDiagram
         - L_name: string
         - Email: string
         - Password: string
+        - Role: string
+        - accountStatus: string
+        +findByEmail(email: string)
+        +findByFirstName(firstName: string)
+        +findByLastName(lastName: string)
     }
 
     class Admin {
         - Username: String
     }
 
-    class Teacher {
-        - Username: string
+    class Instructor {
+        - isApproved: bool
+        - accountStatus: string
+        + editCourse() void
+        + getCourseDetails(courseID:int)void
+
     }
 
     class Student {
-        - Username: string
+        - enrolledCourses: array
     }
 
     class Course {
-        - id: int
-        -title: string
-        -description: string
-        -contentType: enum
-        -createdAt: date
-        -rating: float
+        # id: int
+        # title: string
+        # description: string
+        # contentType: string
+        # category: string
+        # tags : array
+        # publisher : User"CLASS"
+        # status : string
+        +addCourse()
+        +getCourses()
+        +getCoursesByInstructor()
+        +archiveCourse()
+        +updateCourseStatus()
+        +enrollStudent()
+        +getEnrolledStudents()
+        +isStudentEnrolled()
+        +searchCourses()
+        + getContent()string
+    }
+
+    class TextCourse {
+        - textContent: string
+        + getContent()string
+
+    }
+    class   VideoCourse {
+        - videoPath: string
+        + getContent()string
     }
 
     class Category {
         -id: int
         -categoryName: string
         -createdAt : date
+        +getAllCategories()array
     }
 
     class Tag {
@@ -53,13 +85,15 @@ classDiagram
 
 
     User <|-- Admin
-    User <|-- Teacher
+    User <|-- Instructor
     User <|-- Student
+    Course <|-- TextCourse
+    Course <|-- VideoCourse
 
-    Category "0" -- "many" Course : belongs to
-    Teacher "1" -- "many" Course : creates
-    Student "1" *-- "many" Enrollments: has
-    Course "1" *-- "many" Enrollments : has
-    Course "1" -- "many" Tag : has
-    Admin "1" -- "many" Category : creates
-    Admin "1" -- "many" Tag : creates
+    Category "0" -- "many" Course
+    Instructor "1" -- "many" Course
+    Student "1" *-- "many" Enrollments
+    Course "1" *-- "many" Enrollments
+    Course "1" -- "many" Tag
+    Admin "1" -- "many" Category
+    Admin "1" -- "many" Tag

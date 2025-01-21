@@ -8,6 +8,9 @@ interface IUserModel
 
     function findByEmail(string $email): ?User;
 
+    public function findByLastName(string $lastName): ?User;
+    public function findByFirstName(string $firstName): ?User;
+
 
 //    function findById(int $id): ?User;
 }

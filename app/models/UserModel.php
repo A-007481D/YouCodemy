@@ -54,6 +54,38 @@ class UserModel implements IUserModel
         return $user;
     }
 
+    public function findByFirstName(string $firstName): ?User
+    {
+        $query = "SELECT * FROM users WHERE first_name = :first_name LIMIT 1;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['first_name' => $firstName]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$res) {
+            return null;
+        }
+
+        $user = new User($res['first_name'], $res['last_name'], $res['email'], $res['password']);
+        $user->setId($res['userID']);
+        $user->setRole($res['role']);
+        $user->setAccountStatus($res['account_status']);
+        return $user;
+    }
+
+    public function findByLastName(string $lastName): ?User {
+        $query = "SELECT * FROM users WHERE last_name = :last_name LIMIT 1";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['last_name' => $lastName]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$res) {
+            return null;
+        }
+        $user = new User($res['first_name'], $res['last_name'], $res['email'], $res['password']);
+        $user->setId($res['userID']);
+        $user->setRole($res['role']);
+        $user->setAccountStatus($res['account_status']);
+        return $user;
+    }
+
     public function getAllUsers(): array
     {
         $query = "SELECT * FROM users";
@@ -63,15 +95,10 @@ class UserModel implements IUserModel
         $users = [];
 
         foreach ($res as $userData) {
-            // Create a new User object
             $user = new User($userData['first_name'], $userData['last_name'], $userData['email'], $userData['password']);
-
-            // Set additional properties
             $user->setId($userData['userID']);
             $user->setRole($userData['role']);
             $user->setAccountStatus($userData['account_status']);
-
-            // Add the User object to the $users array
             $users[] = $user;
         }
 

@@ -7,7 +7,7 @@ use App\entities\TextCourse;
 use App\entities\User;
 use App\entities\VideoCourse;
 use App\config\Database;
-use PDO;
+use PDO, Exception;
 
 class CourseModel {
     private PDO $pdo;
@@ -33,9 +33,6 @@ class CourseModel {
         ]);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function getCourses($limit = 8, $offset = 0): array {
         $limit = (int)$limit;
         $offset = (int)$offset;
@@ -82,7 +79,7 @@ class CourseModel {
                     $tags
                 );
             } else {
-                throw new \Exception("Unknown course type: " . $row['content_type']);
+                throw new Exception("Unknown course type: " . $row['content_type']);
             }
             $courses[] = $course;
         }

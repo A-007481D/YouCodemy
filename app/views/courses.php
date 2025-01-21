@@ -12,7 +12,7 @@
     <body class="bg-gray-50">
         <header class="bg-white drop-shadow-md px-20 ">
             <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-                <a href="#" class="text-2xl font-bold text-green-500">YouCodemy</a>
+                <a href="/" class="text-2xl font-bold text-green-500">YouCodemy</a>
                 <nav class="flex space-x-6 text-gray-700">
                     <a href="/" class="hover:text-green-500">Home</a>
                     <a href="#" class="hover:text-green-500">About</a>
@@ -133,9 +133,10 @@
 
                     <!-- Login Form -->
                     <div id="loginForm" class="p-8">
-                        <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
-                            Welcome Back
-                        </h2>
+                        <a href="/courses"><h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
+                                Welcome Back
+                            </h2>
+                        </a>
 
                         <form hx-post="/signin" hx-target="#login-errors" hx-swap="innerHTML" class="space-y-6">
                             <div>
@@ -197,9 +198,12 @@
 
                     <!-- Sign Up Form -->
                     <div id="signupForm" class="p-8 hidden">
-                        <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
-                            Create Account
-                        </h2>
+                        <a href="/courses">
+                            <h2 class="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-[#16a34a] bg-clip-text text-transparent">
+                                Create Account
+                            </h2>
+                        </a>
+
 
                         <form hx-post="/signup" hx-target="#signupError" hx-swap="innerHTML" class="space-y-6">
                             <div class="grid grid-cols-2 gap-4">
